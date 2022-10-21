@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <include context="base" file="db/changelog/2022_10_20_1_create_sphinxex_schema.xml"/>
+    <include context="base" file="db/changelog/2022_10_21_2_create_topics_table.xml"/>
+    <include context="base" file="db/changelog/2022_10_21_3_create_questions_table.xml"/>
+    <include context="base" file="db/changelog/2022_10_21_4_create_questionnaires_table.xml"/>
+    <include context="base" file="db/changelog/2022_10_21_5_create_answer_topics_table.xml"/>
+    <include context="base" file="db/changelog/2022_10_21_6_create_answer_questions_table.xml"/>
+
+</databaseChangeLog>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.balmukanov.sphinxes.repository.AnswerQuestionRepository">
+    <insert id="save" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into sphinxex.answer_questions (point, answer, answer_topic_id, level, evaluation)
+        values (#{answerQuestion.point}, #{answerQuestion.answer}, #{answerQuestion.answerTopicId},
+                #{answerQuestion.level}, #{answerQuestion.evaluation});
+    </insert>
+
+    <update id="estimate" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion">
+        update sphinxex.answer_questions set evaluation = #{evaluation} where id = #{id}
+     </update>
+</mapper>

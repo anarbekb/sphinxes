@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Sphinxes</title>
+
+    <link th:href="@{/img/favicon.png}" rel="icon">
+
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Generate</h5>
+
+        <form action="#" th:action="@{/questionnaire/generate}" th:object="${requestQuestionnaire}" method="post">
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="candidateFullName"
+                               placeholder="Иванов Иван Иванович" th:field="*{candidateFullName}">
+                        <label for="candidateFullName">ФИО Кандадата</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="project" placeholder="Google" th:field="*{project}">
+                        <label for="project">Проект</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <select class="form-select" id="candidateLevel" aria-label="Floating label select example" th:field="*{candidateLevel}">
+                            <option selected th:value="'TRAINEE'">Trainee</option>
+                            <option th:value="'J1'">J1</option>
+                            <option th:value="'J2'">J2</option>
+                            <option th:value="'J2'">J2</option>
+                            <option th:value="'J2'">J2</option>
+                            <option th:value="'M2'">M2</option>
+                            <option th:value="'M3'">M3</option>
+                        </select>
+                        <label for="candidateLevel">Уровень кандидата</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Создать опросник</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

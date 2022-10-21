@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Sphinxes</title>
+
+    <link th:href="@{/img/favicon.png}" rel="icon">
+
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+<h5 class="card-title"><a href="/">Generate</a></h5>
+<h2 th:text="'Java - ' + ${questionnaire.project} + ' - ' + ${questionnaire.candidate} + ' - ' + ${questionnaire.createdDt}"></h2>
+<div th:each="topic : ${questionnaire.topics}">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${topic.name}"></h5>
+
+            <div th:each="question : ${topic.questions}" class="accordion accordion-flush"
+                 th:id="'question-' + ${question.id}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" th:id="'flush-' + ${question.id}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                th:data-bs-target="'#flush-collapse-' + ${question.id}"
+                                aria-expanded="false"
+                                th:aria-controls="'#flush-collapse-' + ${question.id}"
+                                th:text="${question.point}">
+                        </button>
+                    </h2>
+                    <div th:id="'flush-collapse-' + ${question.id}"
+                         class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                         th:data-bs-parent="'#question-' + ${question.id}">
+                        <div class="accordion-body">
+                            <p th:text="${question.answer}"></p>
+
+                            <br/>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button type="button"
+                                        th:id="'button-estimate-' + ${question.id} + '-1'"
+                                        th:classappend="${question.evaluation == 1} ? 'active' : ''"
+                                        th:question-id="${question.id}"
+                                        th:questionnaire-id="${questionnaire.id}"
+                                        class="btn btn-outline-primary" value="1">😕 - None
+                                </button>
+                                <button type="button"
+                                        th:id="'button-estimate-' + ${question.id} + '-2'"
+                                        th:classappend="${question.evaluation == 2} ? 'active' : ''"
+                                        th:question-id="${question.id}"
+                                        th:questionnaire-id="${questionnaire.id}"
+                                        class="btn btn-outline-primary" value="2">🧐 - Interm
+                                </button>
+                                <button type="button"
+                                        th:id="'button-estimate-' + ${question.id} + '-3'"
+                                        th:classappend="${question.evaluation == 3} ? 'active' : ''"
+                                        th:question-id="${question.id}"
+                                        th:questionnaire-id="${questionnaire.id}"
+                                        class="btn btn-outline-primary" value="3">🤓 - Novice
+                                </button>
+                                <button type="button" th:id="'button-estimate-' + ${question.id} + '-4'"
+                                        th:classappend="${question.evaluation == 4} ? 'active' : ''"
+                                        th:question-id="${question.id}"
+                                        th:questionnaire-id="${questionnaire.id}"
+                                        class="btn btn-outline-primary" value="4">😎 - Advanced
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+
+</html>

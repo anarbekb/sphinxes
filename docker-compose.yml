@@ -1,0 +1,16 @@
+version: "2.4"
+
+networks:
+  sphinxex: {}
+
+services:
+  postgres-database:
+    container_name: postgres-database
+    image: postgres:13.5-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+    networks:
+      - sphinxex

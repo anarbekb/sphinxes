@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.balmukanov.sphinxes.repository.TopicRepository">
+    <select id="findByLevels" resultMap="topicsQuestionMap">
+        select t.id       as topic_id,
+               t.name     as topic_name,
+               q.id       as question_id,
+               q.point    as question_point,
+               q.answer   as question_answer,
+               q.topic_id as question_topic_id,
+               q.level    as question_level
+        from sphinxex.topics as t
+                 left join sphinxex.questions q on t.id = q.topic_id
+        where q.level in
+        <foreach item="item" index="index" collection="levels" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <resultMap id="topicsQuestionMap" type="Topic">
+        <result property="id" column="topic_id"/>
+        <result property="name" column="topic_name"/>
+        <association property="questions" columnPrefix="question_" resultMap="questionMap"/>
+    </resultMap>
+    <resultMap id="questionMap" type="Question">
+        <result property="id" column="id"/>
+        <result property="point" column="point"/>
+        <result property="answer" column="answer"/>
+        <result property="topicId" column="topic_id"/>
+        <result property="level" column="level"/>
+    </resultMap>
+</mapper>

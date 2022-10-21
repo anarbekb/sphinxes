@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="20-10-2022-create-sphinxex-schema" author="abalmukanov">
+        <sql splitStatements="true" stripComments="true">
+            create schema if not exists "sphinxex"
+            <comment>Create sphinxex schema</comment>
+        </sql>
+        <rollback>
+            <sql>
+                drop schema "sphinxex" cascade
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

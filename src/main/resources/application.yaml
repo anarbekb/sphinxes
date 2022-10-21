@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  jackson.time-zone: UTC
+  jpa:
+    properties.hibernate:
+      jdbc:
+        time_zone: UTC
+  datasource:
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:postgres}${PGADDITIONALPARAMS:}
+    username: ${PGUSER:postgres}
+    password: ${PGPASSWORD:password}
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/master.xml
+    contexts: base
+mybatis:
+  config-location: classpath:mybatis-config.xml

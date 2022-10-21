@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="21-10-2022-create-topics-table" author="abalmukanov">
+        <createTable tableName="topics" schemaName="sphinxex" remarks="Темы">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Индентификатор записи">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" remarks="Имя темы">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">1</column>
+            <column name="name">Java core</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">2</column>
+            <column name="name">DB</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">3</column>
+            <column name="name">k8s</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">4</column>
+            <column name="name">Spring</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">5</column>
+            <column name="name">Tests</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">6</column>
+            <column name="name">Algo/Pattern</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">7</column>
+            <column name="name">Kafka</column>
+        </insert>
+        <insert tableName="topics" schemaName="sphinxex">
+            <column name="id">8</column>
+            <column name="name">Multithreading</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

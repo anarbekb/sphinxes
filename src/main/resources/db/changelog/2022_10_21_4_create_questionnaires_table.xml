@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="21-10-2022-create-questionnaires-table" author="abalmukanov">
+        <createTable tableName="questionnaires" schemaName="sphinxex" remarks="Опросники">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Индентификатор записи">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="evaluation" type="smallint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="candidate" type="varchar(255)" remarks="Имя кандидата">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project" type="varchar(255)" remarks="Название проекта">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(10)" remarks="Статус опросника">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dt" type="timestamp" remarks="Дата и время создания">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

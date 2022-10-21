@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <package name="ru.balmukanov.sphinxes.entities"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mybatis/xml/mapper/TopicMapper.xml"/>
+        <mapper resource="mybatis/xml/mapper/QuestionnaireMapper.xml"/>
+        <mapper resource="mybatis/xml/mapper/AnswerTopicMapper.xml"/>
+        <mapper resource="mybatis/xml/mapper/AnswerQuestionMapper.xml"/>
+    </mappers>
+</configuration>
