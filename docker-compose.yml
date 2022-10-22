@@ -6,7 +6,7 @@ networks:
 services:
   postgres-database:
     container_name: postgres-database
-    image: postgres:13.5-alpine
+    image: postgres:12.12-alpine
     ports:
       - 5432:5432
     environment:
