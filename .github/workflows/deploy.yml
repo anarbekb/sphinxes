@@ -26,7 +26,7 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
         with:
           source: "./target/app.jar"
-          target: "/var/sphinxex/"
+          target: "/var/sphinxes/"
 
       - name: Run application as service
         uses: appleboy/ssh-action@master
@@ -37,7 +37,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/chat
-            cp /var/sphinxex/target/app.jar /var/sphinxex/app.jar
-            rm -rf /var/sphinxex/target
-            systemctl stop sphinxex.service
-            systemctl start sphinxex.service
+            cp /var/sphinxes/target/app.jar /var/sphinxes/app.jar
+            rm -rf /var/sphinxes/target
+            systemctl stop sphinxes.service
+            systemctl start sphinxes.service
