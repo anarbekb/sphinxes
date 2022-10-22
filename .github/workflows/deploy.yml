@@ -39,5 +39,5 @@ jobs:
             cd /var/sphinxes
             cp /var/sphinxes/target/app.jar /var/sphinxes/app.jar
             rm -rf /var/sphinxes/target
-            systemctl stop sphinxes.service
-            systemctl start sphinxes.service
+            sudo systemctl stop sphinxes.service
+            sudo systemctl start sphinxes.service
