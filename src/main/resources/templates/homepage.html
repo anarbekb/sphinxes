@@ -20,49 +20,55 @@
 </head>
 
 <body>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Generate</h5>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Generate</h5>
-
-        <form action="#" th:action="@{/questionnaire/generate}" th:object="${requestQuestionnaire}" method="post">
-            <div class="row g-2">
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="candidateFullName"
-                               placeholder="Иванов Иван Иванович" th:field="*{candidateFullName}">
-                        <label for="candidateFullName">ФИО Кандадата</label>
+            <form action="#" th:action="@{/questionnaire/generate}" th:object="${requestQuestionnaire}" method="post">
+                <div class="row g-2">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="candidateFullName" required
+                                   placeholder="Иванов Иван Иванович" th:field="*{candidateFullName}">
+                            <label for="candidateFullName">ФИО Кандидата</label>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="project" placeholder="Google" th:field="*{project}">
-                        <label for="project">Проект</label>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="project" placeholder="Google" required
+                                   th:field="*{project}">
+                            <label for="project">Проект</label>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select" id="candidateLevel" aria-label="Floating label select example" th:field="*{candidateLevel}">
-                            <option selected th:value="'TRAINEE'">Trainee</option>
-                            <option th:value="'J1'">J1</option>
-                            <option th:value="'J2'">J2</option>
-                            <option th:value="'J2'">J2</option>
-                            <option th:value="'J2'">J2</option>
-                            <option th:value="'M2'">M2</option>
-                            <option th:value="'M3'">M3</option>
-                        </select>
-                        <label for="candidateLevel">Уровень кандидата</label>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select class="form-select" id="candidateLevel" aria-label="Floating label select example"
+                                    th:field="*{candidateLevel}">
+                                <option selected th:value="'TRAINEE'">Trainee</option>
+                                <option th:value="'J1'">J1</option>
+                                <option th:value="'J2'">J2</option>
+                                <option th:value="'J2'">J2</option>
+                                <option th:value="'J2'">J2</option>
+                                <option th:value="'M2'">M2</option>
+                                <option th:value="'M3'">M3</option>
+                            </select>
+                            <label for="candidateLevel">Уровень кандидата</label>
+                        </div>
                     </div>
+                    <button type="submit" class="btn btn-primary">Создать опросник</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Создать опросник</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 text-muted">Balmukanov Anarbek</span>
+    </div>
+</footer>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script th:src="@{/js/main.js}"></script>

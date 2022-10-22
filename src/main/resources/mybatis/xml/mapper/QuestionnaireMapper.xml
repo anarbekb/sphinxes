@@ -10,6 +10,12 @@
                 #{questionnaire.status}, #{questionnaire.evaluation});
     </insert>
 
+    <update id="changeStatus" parameterType="ru.balmukanov.sphinxes.entities.Questionnaire">
+        update sphinxex.questionnaires
+        set status = #{status}
+        where id = #{id}
+    </update>
+
     <select id="findById" resultType="ru.balmukanov.sphinxes.entities.Questionnaire">
         select q.id         as id,
                q.project    as project,
@@ -27,6 +33,7 @@
                q.created_dt        as questionnaires_created_dt,
                q.project           as questionnaires_project,
                q.candidate         as questionnaires_candidate,
+               q.status            as questionnaires_status,
                at.id               as answer_topic_id,
                at.name             as answer_topic_name,
                at.evaluation       as answer_topic_evaluation,
@@ -49,6 +56,7 @@
         <result property="createdDt" column="questionnaires_created_dt"/>
         <result property="project" column="questionnaires_project"/>
         <result property="candidate" column="questionnaires_candidate"/>
+        <result property="status" column="questionnaires_status"/>
 
         <collection property="topics" ofType="ru.balmukanov.sphinxes.entities.AnswerTopic" column="answer_topic_id">
             <result property="id" column="answer_topic_id"/>

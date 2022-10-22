@@ -9,4 +9,6 @@ public interface QuestionnaireService {
     QuestionnaireDto getQuestionnaire(long id);
 
     void checkAvailabilityForEdit(long questionnaireId);
+
+    void completeQuestionnaire(long id);
 }

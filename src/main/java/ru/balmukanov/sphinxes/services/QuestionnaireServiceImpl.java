@@ -53,4 +53,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             throw new ClosedQuestionnaireException();
         }
     }
+
+	@Override
+	public void completeQuestionnaire(long id) {
+        questionnaireRepository.changeStatus(id, QuestionnaireStatus.CLOSED);
+	}
 }
