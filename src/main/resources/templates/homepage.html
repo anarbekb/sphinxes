@@ -61,6 +61,17 @@
             </form>
         </div>
     </div>
+
+    <div th:each="questionnaireItem : ${questionnaires}">
+        <div class="card">
+            <div class="card-header" th:text="${questionnaireItem.createdDt} + ' - ' + ${questionnaireItem.status}"></div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${questionnaireItem.project} + ' - ' + ${questionnaireItem.candidate}"></h5>
+                <p class="card-text">Feedback here</p>
+                <a th:href="'/questionnaire/' + ${questionnaireItem.id}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

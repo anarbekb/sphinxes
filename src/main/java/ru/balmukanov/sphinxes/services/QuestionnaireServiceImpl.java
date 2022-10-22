@@ -46,6 +46,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
+    public List<QuestionnaireDto> findAll() {
+        return questionnaireRepository.findAll().stream()
+            .map(questionnaireMapper::mapToDto)
+            .toList();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public void checkAvailabilityForEdit(long questionnaireId) {
         Questionnaire questionnaire = questionnaireRepository.findById(questionnaireId);

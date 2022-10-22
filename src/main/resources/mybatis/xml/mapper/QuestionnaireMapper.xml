@@ -16,6 +16,24 @@
         where id = #{id}
     </update>
 
+    <select id="findAll" resultMap="questionnaire">
+        select q.id         as id,
+               q.project    as project,
+               q.evaluation as evaluation,
+               q.candidate  as candidate,
+               q.created_dt as created_dt,
+               q.status     as status
+        from sphinxex.questionnaires as q
+    </select>
+    <resultMap id="questionnaire" type="ru.balmukanov.sphinxes.entities.Questionnaire">
+        <result property="id" column="id"/>
+        <result property="evaluation" column="evaluation"/>
+        <result property="createdDt" column="created_dt"/>
+        <result property="project" column="project"/>
+        <result property="candidate" column="candidate"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
     <select id="findById" resultType="ru.balmukanov.sphinxes.entities.Questionnaire">
         select q.id         as id,
                q.project    as project,
