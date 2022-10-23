@@ -8,5 +8,5 @@ import ru.balmukanov.sphinxes.entities.AnswerQuestion;
 public interface AnswerQuestionRepository {
     void save(@Param("answerQuestion") AnswerQuestion answerQuestion);
 
-    void estimate(long id, int evaluation);
+    void setEvaluation(long id, int evaluation);
 }

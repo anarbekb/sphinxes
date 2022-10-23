@@ -6,4 +6,5 @@ import lombok.Data;
 public class EstimateDto {
     private Integer evaluation;
     private long questionnaireId;
+    private long questionId;
 }

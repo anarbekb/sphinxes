@@ -8,4 +8,12 @@
         insert into sphinxex.answer_topics (name, evaluation, questionnaire_id)
         values (#{answerTopic.name}, #{answerTopic.evaluation}, #{answerTopic.questionnaireId});
     </insert>
+
+    <update id="update" parameterType="ru.balmukanov.sphinxes.entities.AnswerTopic">
+        update sphinxex.answer_topics
+        set name             = #{answerTopic.name},
+            evaluation       = #{answerTopic.evaluation},
+            questionnaire_id = #{answerTopic.questionnaireId}
+        where id = #{answerTopic.id}
+    </update>
 </mapper>

@@ -8,7 +8,9 @@
             let button = buttons[j];
             button.addEventListener('click', async function () {
                 let request = {
-                    "evaluation": button.value, "questionnaireId": button.getAttribute("questionnaire-id")
+                    "evaluation": button.value,
+                    "questionnaireId": button.getAttribute("questionnaire-id"),
+                    "questionId": button.getAttribute("question-id")
                 };
 
                 let url = "http://62.109.13.45:8080/question/" + "estimate/" + button.getAttribute("question-id");

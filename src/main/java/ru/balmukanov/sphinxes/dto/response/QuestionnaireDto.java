@@ -8,5 +8,6 @@ public record QuestionnaireDto(
         String candidate,
         String project,
         String createdDt,
-        String status) {
+        String status,
+        Integer evaluation) {
 }

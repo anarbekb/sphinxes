@@ -17,5 +17,7 @@ public interface QuestionnaireRepository {
 
     void save(@Param("questionnaire") Questionnaire questionnaire);
 
-    void changeStatus(long id, QuestionnaireStatus status);
+    void changeStatus(long id, QuestionnaireStatus status);//todo replace with update
+
+    void update(@Param("questionnaire") Questionnaire questionnaire);
 }

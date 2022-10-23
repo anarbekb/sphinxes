@@ -10,7 +10,7 @@
                 #{answerQuestion.level}, #{answerQuestion.evaluation});
     </insert>
 
-    <update id="estimate" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion">
+    <update id="setEvaluation" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion">
         update sphinxex.answer_questions set evaluation = #{evaluation} where id = #{id}
      </update>
 </mapper>

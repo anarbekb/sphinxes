@@ -21,8 +21,37 @@
 <body>
 <div class="container">
     <h5 class="card-title"><a href="/">Generate</a></h5>
-    <h2 th:text="'Java - ' + ${questionnaire.project} + ' - ' + ${questionnaire.candidate} + ' - ' + ${questionnaire.createdDt}"></h2>
-    <h2 th:text="'Status - ' + ${questionnaire.status}"></h2>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Имя опроса</th>
+            <td><h3 th:text="'Java - ' + ${questionnaire.project} + ' - ' + ${questionnaire.candidate} + ' - ' + ${questionnaire.createdDt}"></h3></td>
+        </tr>
+        <tr>
+            <th scope="row">Статус</th>
+            <td><h3 th:text="${questionnaire.status}"></h3></td>
+        </tr>
+        <tr>
+            <th scope="row">Оценка</th>
+            <td colspan="2">
+                <th:block th:switch="${questionnaire.evaluation}">
+                    <h3 th:case="1">😕 - None</h3>
+                    <h3 th:case="2">🧐 - Interm</h3>
+                    <h3 th:case="3">🤓 - Novice</h3>
+                    <h3 th:case="4">😎 - Advanced</h3>
+                </th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
     <div th:each="topic : ${questionnaire.topics}">
         <div class="card">
             <div class="card-body">
@@ -80,6 +109,12 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="card-footer text-muted" th:switch="${topic.evaluation}">
+                <p th:case="1" th:text="'😕 - None'"></p>
+                <p th:case="2" th:text="'🧐 - Interm'"></p>
+                <p th:case="3" th:text="'🤓 - Novice'"></p>
+                <p th:case="4" th:text="'😎 - Advanced'"></p>
             </div>
         </div>
     </div>

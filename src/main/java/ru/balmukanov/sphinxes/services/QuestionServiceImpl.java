@@ -25,6 +25,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional
     public void estimate(long answerCommentId, int evaluation) {
-        answerQuestionRepository.estimate(answerCommentId, evaluation);
+        answerQuestionRepository.setEvaluation(answerCommentId, evaluation);
     }
 }

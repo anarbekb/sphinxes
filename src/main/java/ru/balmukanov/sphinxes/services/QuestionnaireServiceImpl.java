@@ -62,6 +62,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
 	@Override
+    @Transactional
 	public void completeQuestionnaire(long id) {
         questionnaireRepository.changeStatus(id, QuestionnaireStatus.CLOSED);
 	}

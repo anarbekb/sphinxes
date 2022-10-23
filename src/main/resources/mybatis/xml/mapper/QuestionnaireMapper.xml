@@ -16,6 +16,15 @@
         where id = #{id}
     </update>
 
+    <update id="update" parameterType="ru.balmukanov.sphinxes.entities.Questionnaire">
+        update sphinxex.questionnaires
+        set project    = #{questionnaire.project},
+            evaluation = #{questionnaire.evaluation},
+            candidate  = #{questionnaire.candidate},
+            status   = #{questionnaire.status}
+        where id = #{questionnaire.id}
+    </update>
+
     <select id="findAll" resultMap="questionnaire">
         select q.id         as id,
                q.project    as project,
@@ -63,8 +72,9 @@
                aq.level            as answer_question_level,
                aq.answer_topic_id  as answer_question_answer_topic_id
         from sphinxex.questionnaires as q
-                 left join sphinxex.answer_topics at on q.id = at.questionnaire_id
-                 left join sphinxex.answer_questions aq on at.id = aq.answer_topic_id
+                 left join sphinxex.answer_topics at
+        on q.id = at.questionnaire_id
+            left join sphinxex.answer_questions aq on at.id = aq.answer_topic_id
         where q.id = #{id}
         order by answer_question_point
     </select>

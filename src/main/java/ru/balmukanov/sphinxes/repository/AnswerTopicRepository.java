@@ -7,4 +7,6 @@ import ru.balmukanov.sphinxes.entities.AnswerTopic;
 @Mapper
 public interface AnswerTopicRepository {
     void save(@Param("answerTopic") AnswerTopic answerTopic);
+
+    void update(@Param("answerTopic") AnswerTopic answerTopic);
 }
