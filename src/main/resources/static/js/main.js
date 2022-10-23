@@ -13,7 +13,7 @@
                     "questionId": button.getAttribute("question-id")
                 };
 
-                let url = "http://62.109.13.45:8080/question/" + "estimate/" + button.getAttribute("question-id");
+                let url = "http://62.109.13.45:8080/question";
                 const response = await fetch(url, {
                     method: 'POST', headers: {
                         'Accept': 'application/json', 'Content-Type': 'application/json'
