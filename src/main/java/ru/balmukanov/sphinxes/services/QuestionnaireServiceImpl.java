@@ -49,8 +49,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
-    public List<QuestionnaireDto> findAll() {
-        return questionnaireRepository.findAll().stream()
+    @Transactional(readOnly = true)
+    public List<QuestionnaireDto> findAllWithFeedback() {
+        return questionnaireRepository.findAllWithFeedback().stream()
             .map(questionnaireMapper::mapToDto)
             .toList();
     }

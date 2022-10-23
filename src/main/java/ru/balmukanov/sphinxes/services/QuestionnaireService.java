@@ -9,7 +9,7 @@ import java.util.List;
 public interface QuestionnaireService {
     QuestionnaireDto getQuestionnaire(long id);
 
-    List<QuestionnaireDto> findAll();
+    List<QuestionnaireDto> findAllWithFeedback();
 
     long generateQuestionnaire(CreateQuestionnaireDto request);
 

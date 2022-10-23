@@ -15,7 +15,7 @@ public class HomePageController {
     @GetMapping(value = "/")
     public String homePage(Model model) {
         model.addAttribute("requestQuestionnaire", new CreateQuestionnaireDto());
-        model.addAttribute("questionnaires", questionnaireService.findAll());
+        model.addAttribute("questionnaires", questionnaireService.findAllWithFeedback());
         return "homepage";
     }
 }

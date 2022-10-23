@@ -12,7 +12,7 @@ public interface QuestionnaireRepository {
 
     Questionnaire findById(long id);
 
-    List<Questionnaire> findAll();
+    List<Questionnaire> findAllWithFeedback();
 
     void save(@Param("questionnaire") Questionnaire questionnaire);
 

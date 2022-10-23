@@ -19,22 +19,29 @@
         where id = #{questionnaire.id}
     </update>
 
-    <select id="findAll" resultMap="questionnaire">
-        select q.id         as id,
-               q.project    as project,
-               q.evaluation as evaluation,
-               q.candidate  as candidate,
-               q.created_dt as created_dt,
-               q.status     as status
+    <select id="findAllWithFeedback" resultMap="questionnaireWithFeedback">
+        select q.id               as id,
+               q.project          as project,
+               q.evaluation       as evaluation,
+               q.candidate        as candidate,
+               q.created_dt       as created_dt,
+               q.status           as status,
+               f.id               as feedback_id,
+               f.need_improve     as feedback_need_improve,
+               f.questionnaire_id as feedback_questionnaire_id,
+               f.strengths        as feedback_strengths,
+               f.weaknesses       as feedback_weaknesses
         from sphinxex.questionnaires as q
+                 left join sphinxex.feedbacks f on q.id = f.questionnaire_id
     </select>
-    <resultMap id="questionnaire" type="ru.balmukanov.sphinxes.entities.Questionnaire">
+    <resultMap id="questionnaireWithFeedback" type="ru.balmukanov.sphinxes.entities.Questionnaire">
         <result property="id" column="id"/>
         <result property="evaluation" column="evaluation"/>
         <result property="createdDt" column="created_dt"/>
         <result property="project" column="project"/>
         <result property="candidate" column="candidate"/>
         <result property="status" column="status"/>
+        <association property="feedback" columnPrefix="feedback_" resultMap="feedbackMap"/>
     </resultMap>
 
     <select id="findById" resultType="ru.balmukanov.sphinxes.entities.Questionnaire">
