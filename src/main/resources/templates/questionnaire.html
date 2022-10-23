@@ -32,7 +32,9 @@
         <tbody>
         <tr>
             <th scope="row">Имя опроса</th>
-            <td><h3 th:text="'Java - ' + ${questionnaire.project} + ' - ' + ${questionnaire.candidate} + ' - ' + ${questionnaire.createdDt}"></h3></td>
+            <td>
+                <h3 th:text="'Java - ' + ${questionnaire.project} + ' - ' + ${questionnaire.candidate} + ' - ' + ${questionnaire.createdDt}"></h3>
+            </td>
         </tr>
         <tr>
             <th scope="row">Статус</th>
@@ -118,14 +120,39 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 text-center">
+
+    <div class="col-md-12 text-center" th:if="${!questionnaire.status.contentEquals('CLOSED')}">
         <form action="/questionnaire/complete" method="post">
             <input type="hidden" name="id" th:value="${questionnaire.id}">
-            <button type="submit" class="btn btn-success"
-                    th:classappend="${questionnaire.status.contentEquals('CLOSED')} ? 'disabled' : ''">
+            <div class="mb-3">
+                <input class="form-control form-control-lg" type="text" name="weaknesses" placeholder="Слабые стороны"
+                       aria-label=".form-control-lg example">
+            </div>
+            <div class="mb-3">
+                <input class="form-control form-control-lg" type="text" name="strengths" placeholder="Сильные стороны"
+                       aria-label=".form-control-lg example">
+            </div>
+            <button type="submit" class="btn btn-success">
                 Завершить
             </button>
         </form>
+    </div>
+
+    <div class="card" th:if="${questionnaire.status.contentEquals('CLOSED') && questionnaire.feedback != null}">
+        <div class="card-body">
+            <h5 class="card-title">Feedback</h5>
+            <p class="muted">Сильные стороны:</p>
+            <p class="muted" th:text="${questionnaire.feedback.strengths}"></p>
+            <p class="muted">Слабые стороны:</p>
+            <p class="muted" th:text="${questionnaire.feedback.weaknesses}"></p>
+        </div>
+    </div>
+
+    <div class="card" th:if="${questionnaire.status.contentEquals('CLOSED') && questionnaire.feedback != null}">
+        <div class="card-body">
+            <h5 class="card-title">What to improve</h5>
+            <p class="muted" th:text="${questionnaire.feedback.needImprove}"></p>
+        </div>
     </div>
 </div>
 

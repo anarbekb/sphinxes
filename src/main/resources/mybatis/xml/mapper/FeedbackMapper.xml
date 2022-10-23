@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.balmukanov.sphinxes.repository.FeedbackRepository">
+    <insert id="save" parameterType="ru.balmukanov.sphinxes.entities.Feedback" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into sphinxex.feedbacks (need_improve, weaknesses, strengths, questionnaire_id)
+        values (#{feedback.needImprove}, #{feedback.weaknesses}, #{feedback.strengths}, #{feedback.questionnaireId});
+    </insert>
+</mapper>

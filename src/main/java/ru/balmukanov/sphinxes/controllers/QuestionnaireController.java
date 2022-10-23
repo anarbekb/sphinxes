@@ -36,7 +36,7 @@ public class QuestionnaireController {
 
     @PostMapping(value = "complete")
     public String completeQuestionnaire(@ModelAttribute CompleteQuestionnaireDto request) {
-        questionnaireService.completeQuestionnaire(request.getId());
+        questionnaireService.completeQuestionnaire(request);
         return "redirect:/questionnaire/" + request.getId();
     }
 }

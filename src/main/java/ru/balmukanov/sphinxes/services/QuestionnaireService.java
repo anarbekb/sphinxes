@@ -1,5 +1,6 @@
 package ru.balmukanov.sphinxes.services;
 
+import ru.balmukanov.sphinxes.dto.request.CompleteQuestionnaireDto;
 import ru.balmukanov.sphinxes.dto.request.CreateQuestionnaireDto;
 import ru.balmukanov.sphinxes.dto.response.QuestionnaireDto;
 
@@ -14,5 +15,5 @@ public interface QuestionnaireService {
 
     void checkAvailabilityForEdit(long questionnaireId);
 
-    void completeQuestionnaire(long id);
+    void completeQuestionnaire(CompleteQuestionnaireDto completeQuestionnaireDto);
 }

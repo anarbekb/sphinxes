@@ -18,4 +18,5 @@ public class Questionnaire implements Serializable {
     private String project;
     private QuestionnaireStatus status;
     private List<AnswerTopic> topics;
+    private Feedback feedback;
 }

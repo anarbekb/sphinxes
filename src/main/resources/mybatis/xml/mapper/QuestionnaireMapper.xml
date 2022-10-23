@@ -10,18 +10,12 @@
                 #{questionnaire.status}, #{questionnaire.evaluation});
     </insert>
 
-    <update id="changeStatus" parameterType="ru.balmukanov.sphinxes.entities.Questionnaire">
-        update sphinxex.questionnaires
-        set status = #{status}
-        where id = #{id}
-    </update>
-
     <update id="update" parameterType="ru.balmukanov.sphinxes.entities.Questionnaire">
         update sphinxex.questionnaires
         set project    = #{questionnaire.project},
             evaluation = #{questionnaire.evaluation},
             candidate  = #{questionnaire.candidate},
-            status   = #{questionnaire.status}
+            status     = #{questionnaire.status}
         where id = #{questionnaire.id}
     </update>
 
@@ -69,12 +63,19 @@
                aq.point            as answer_question_point,
                aq.answer           as answer_question_answer,
                aq.evaluation       as answer_question_evaluation,
+               aq.subject          as answer_question_subject,
+               aq.links            as answer_question_links,
                aq.level            as answer_question_level,
-               aq.answer_topic_id  as answer_question_answer_topic_id
+               aq.answer_topic_id  as answer_question_answer_topic_id,
+               f.id                as feedback_id,
+               f.need_improve      as feedback_need_improve,
+               f.weaknesses        as feedback_weaknesses,
+               f.strengths         as feedback_strengths,
+               f.questionnaire_id  as feedback_questionnaire_id
         from sphinxex.questionnaires as q
-                 left join sphinxex.answer_topics at
-        on q.id = at.questionnaire_id
+            left join sphinxex.answer_topics at on q.id = at.questionnaire_id
             left join sphinxex.answer_questions aq on at.id = aq.answer_topic_id
+            left join sphinxex.feedbacks f on q.id = f.questionnaire_id
         where q.id = #{id}
         order by answer_question_point
     </select>
@@ -85,6 +86,7 @@
         <result property="project" column="questionnaires_project"/>
         <result property="candidate" column="questionnaires_candidate"/>
         <result property="status" column="questionnaires_status"/>
+        <association property="feedback" columnPrefix="feedback_" resultMap="feedbackMap"/>
 
         <collection property="topics" ofType="ru.balmukanov.sphinxes.entities.AnswerTopic" column="answer_topic_id">
             <result property="id" column="answer_topic_id"/>
@@ -98,9 +100,18 @@
                 <result property="point" column="answer_question_point"/>
                 <result property="answer" column="answer_question_answer"/>
                 <result property="answerTopicId" column="answer_question_answer_topic_id"/>
+                <result property="subject" column="answer_question_subject"/>
+                <result property="links" column="answer_question_links"/>
                 <result property="level" column="answer_question_level"/>
                 <result property="evaluation" column="answer_question_evaluation"/>
             </collection>
         </collection>
+    </resultMap>
+    <resultMap id="feedbackMap" type="ru.balmukanov.sphinxes.entities.Feedback">
+        <result property="id" column="id"/>
+        <result property="needImprove" column="need_improve"/>
+        <result property="weaknesses" column="weaknesses"/>
+        <result property="strengths" column="strengths"/>
+        <result property="questionnaireId" column="questionnaire_id"/>
     </resultMap>
 </mapper>

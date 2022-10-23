@@ -13,6 +13,8 @@ public class AnswerQuestion implements Serializable {
     private String point;
     private String answer;
     private long answerTopicId;
+    private String links;
+    private String subject;
     private Level level;
     private Integer evaluation;
 }

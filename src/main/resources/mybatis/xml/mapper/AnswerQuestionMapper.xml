@@ -5,12 +5,39 @@
 <mapper namespace="ru.balmukanov.sphinxes.repository.AnswerQuestionRepository">
     <insert id="save" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
-        insert into sphinxex.answer_questions (point, answer, answer_topic_id, level, evaluation)
+        insert into sphinxex.answer_questions (point, answer, answer_topic_id, level, subject, evaluation, links)
         values (#{answerQuestion.point}, #{answerQuestion.answer}, #{answerQuestion.answerTopicId},
-                #{answerQuestion.level}, #{answerQuestion.evaluation});
+                #{answerQuestion.level}, #{answerQuestion.subject}, #{answerQuestion.evaluation}, #{answerQuestion.links});
     </insert>
 
     <update id="setEvaluation" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion">
         update sphinxex.answer_questions set evaluation = #{evaluation} where id = #{id}
-     </update>
+    </update>
+
+    <select id="findFailed" resultMap="answerQuestionMap">
+        select aq.id              as id,
+               aq.point           as point,
+               aq.answer          as answer,
+               aq.evaluation      as evaluation,
+               aq.answer_topic_id as answer_topic_id,
+               aq.level           as level,
+               aq.subject         as subject,
+               aq.links           as links,
+               aq.evaluation      as evaluation
+        from sphinxex.answer_questions aq
+             left join sphinxex.answer_topics at on aq.answer_topic_id = at.id
+             left join sphinxex.questionnaires q on at.questionnaire_id = q.id
+        where q.id = #{questionnaireId} and aq.evaluation = 1
+    </select>
+    <resultMap id="answerQuestionMap" type="AnswerQuestion">
+        <result property="id" column="id"/>
+        <result property="point" column="point"/>
+        <result property="answer" column="answer"/>
+        <result property="evaluation" column="evaluation"/>
+        <result property="answerTopicId" column="answer_topic_id"/>
+        <result property="level" column="level"/>
+        <result property="subject" column="subject"/>
+        <result property="links" column="links"/>
+        <result property="evaluation" column="evaluation"/>
+    </resultMap>
 </mapper>

@@ -13,5 +13,7 @@ public class Question implements Serializable {
     private String point;
     private String answer;
     private long topicId;
+    private String links;
+    private String subject;
     private Level level;
 }

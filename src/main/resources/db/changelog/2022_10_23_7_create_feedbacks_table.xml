@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="23-10-2022-create-feedbacks-table" author="abalmukanov">
+        <createTable tableName="feedbacks" schemaName="sphinxex" remarks="Feedback">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Индентификатор записи">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="weaknesses" type="varchar(200)" remarks="Слабые стороны">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strengths" type="varchar(200)" remarks="Сильные стороны">
+                <constraints nullable="false"/>
+            </column>
+            <column name="need_improve" type="varchar(1000)" remarks="Темы, которые необходимо улучшить">
+                <constraints nullable="false"/>
+            </column>
+            <column name="questionnaire_id" type="bigint" remarks="Связь с отпросом">
+                <constraints nullable="false"
+                             foreignKeyName="fk_feedbacks_questionnaires_id"
+                             references="sphinxex.questionnaires(id)"
+                             deferrable="true"
+                             initiallyDeferred="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

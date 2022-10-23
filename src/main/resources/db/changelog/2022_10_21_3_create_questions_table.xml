@@ -21,6 +21,12 @@
                              deferrable="true"
                              initiallyDeferred="true"/>
             </column>
+            <column name="subject" type="varchar(100)" remarks="Тема вопроса">
+                <constraints nullable="false"/>
+            </column>
+            <column name="links" type="varchar(1000)" remarks="Ссылки на источники">
+                <constraints nullable="true"/>
+            </column>
             <column name="level" type="varchar(10)" remarks="Уровень вопроса">
                 <constraints nullable="false"/>
             </column>

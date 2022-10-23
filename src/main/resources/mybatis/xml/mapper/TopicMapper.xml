@@ -10,9 +10,11 @@
                q.point    as question_point,
                q.answer   as question_answer,
                q.topic_id as question_topic_id,
+               q.links    as question_links,
+               q.subject  as question_subject,
                q.level    as question_level
         from sphinxex.topics as t
-                 left join sphinxex.questions q on t.id = q.topic_id
+               left join sphinxex.questions q on t.id = q.topic_id
         where q.level in
         <foreach item="item" index="index" collection="levels" open="(" separator="," close=")">
             #{item}
@@ -28,6 +30,8 @@
         <result property="point" column="point"/>
         <result property="answer" column="answer"/>
         <result property="topicId" column="topic_id"/>
+        <result property="links" column="links"/>
+        <result property="subject" column="subject"/>
         <result property="level" column="level"/>
     </resultMap>
 </mapper>

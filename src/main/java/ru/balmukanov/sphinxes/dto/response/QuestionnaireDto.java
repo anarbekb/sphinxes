@@ -9,5 +9,6 @@ public record QuestionnaireDto(
         String project,
         String createdDt,
         String status,
-        Integer evaluation) {
+        Integer evaluation,
+        FeedbackDto feedback) {
 }

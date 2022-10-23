@@ -11,5 +11,6 @@
         <mapper resource="mybatis/xml/mapper/QuestionnaireMapper.xml"/>
         <mapper resource="mybatis/xml/mapper/AnswerTopicMapper.xml"/>
         <mapper resource="mybatis/xml/mapper/AnswerQuestionMapper.xml"/>
+        <mapper resource="mybatis/xml/mapper/FeedbackMapper.xml"/>
     </mappers>
 </configuration>
