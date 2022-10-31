@@ -75,6 +75,10 @@
                              th:data-bs-parent="'#question-' + ${question.id}">
                             <div class="accordion-body">
                                 <p th:text="${question.answer}"></p>
+                                <div>
+                                    <a target="_blank" th:each="link : ${#strings.arraySplit(question.links, ' ')}" th:href="${link}"
+                                       class="link-primary">source </a>
+                                </div>
 
                                 <br/>
                                 <div class="btn-group" role="group" aria-label="Basic outlined example">
