@@ -15,10 +15,10 @@ public enum Level {
         return switch (level) {
             case TRAINEE -> List.of(TRAINEE, J1);
             case J1 -> List.of(TRAINEE, J1, J2);
-            case J2 -> List.of(J1, J2, J3);
-            case J3 -> List.of(J2, J3, M1);
-            case M1 -> List.of(J3, M1, M2);
-            case M2, M3 -> List.of(M1, M2, M3);
+            case J2 -> List.of(TRAINEE, J1, J2, J3);
+            case J3 -> List.of(TRAINEE, J1, J2, J3, M1);
+            case M1 -> List.of(TRAINEE, J1, J2, J3, M1, M2);
+            case M2, M3 -> List.of(TRAINEE, J1, J2, J3, M1, M2, M3);
         };
     }
 }
