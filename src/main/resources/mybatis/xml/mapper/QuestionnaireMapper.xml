@@ -33,6 +33,7 @@
                f.weaknesses       as feedback_weaknesses
         from sphinxex.questionnaires as q
                  left join sphinxex.feedbacks f on q.id = f.questionnaire_id
+        order by created_dt
     </select>
     <resultMap id="questionnaireWithFeedback" type="ru.balmukanov.sphinxes.entities.Questionnaire">
         <result property="id" column="id"/>
