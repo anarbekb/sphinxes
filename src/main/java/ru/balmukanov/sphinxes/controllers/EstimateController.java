@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.balmukanov.sphinxes.dto.request.EstimateDto;
@@ -14,13 +15,14 @@ import ru.balmukanov.sphinxes.services.QuestionnaireService;
 
 @Slf4j
 @Controller
+@Validated
 @RequiredArgsConstructor
 public class EstimateController {
     private final QuestionnaireService questionnaireService;
     private final EstimateService estimateService;
 
     @PostMapping("estimate")
-    public ResponseEntity<HttpStatus> estimate(@RequestBody EstimateDto request) {
+    public ResponseEntity<HttpStatus> estimate(@RequestBody @Validated EstimateDto request) {
         try {
             questionnaireService.checkAvailabilityForEdit(request.getQuestionnaireId());
             estimateService.estimate(request);

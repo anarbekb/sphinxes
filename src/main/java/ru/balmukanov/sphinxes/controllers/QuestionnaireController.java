@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,13 +17,14 @@ import ru.balmukanov.sphinxes.services.QuestionnaireService;
 
 @Slf4j
 @Controller
+@Validated
 @RequestMapping("questionnaire")
 @RequiredArgsConstructor
 public class QuestionnaireController {
     private final QuestionnaireService questionnaireService;
 
     @PostMapping("generate")
-    public String generateQuestionnaire(@ModelAttribute CreateQuestionnaireDto requestQuestionnaire) {
+    public String generateQuestionnaire(@ModelAttribute @Validated CreateQuestionnaireDto requestQuestionnaire) {
         long questionnaireId = questionnaireService.generateQuestionnaire(requestQuestionnaire);
         return "redirect:/questionnaire/" + questionnaireId;
     }
@@ -35,7 +37,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping(value = "complete")
-    public String completeQuestionnaire(@ModelAttribute CompleteQuestionnaireDto request) {
+    public String completeQuestionnaire(@ModelAttribute @Validated CompleteQuestionnaireDto request) {
         questionnaireService.completeQuestionnaire(request);
         return "redirect:/questionnaire/" + request.getId();
     }
