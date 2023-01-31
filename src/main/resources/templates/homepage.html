@@ -67,7 +67,6 @@
             <div class="card-header" th:text="${questionnaireItem.createdDt} + ' - ' + ${questionnaireItem.status}"></div>
             <div class="card-body">
                 <h5 class="card-title" th:text="${questionnaireItem.project} + ' - ' + ${questionnaireItem.candidate}"></h5>
-                <p class="card-text" th:if="${questionnaireItem.feedback != null}" th:text="${questionnaireItem.feedback.needImprove}"></p>
                 <a th:href="'/questionnaire/' + ${questionnaireItem.id}" class="btn btn-primary">Подробнее</a>
             </div>
         </div>
