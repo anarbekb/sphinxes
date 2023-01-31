@@ -155,7 +155,9 @@
     <div class="card" th:if="${questionnaire.status.contentEquals('CLOSED') && questionnaire.feedback != null}">
         <div class="card-body">
             <h5 class="card-title">What to improve</h5>
-            <p class="muted" th:text="${questionnaire.feedback.needImprove}"></p>
+            <div th:each="topic : ${#strings.arraySplit(questionnaire.feedback.needImprove, ',')}">
+                <p class="muted" th:text="${topic}"></p>
+            </div>
         </div>
     </div>
 </div>
