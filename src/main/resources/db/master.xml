@@ -12,5 +12,6 @@
     <include context="base" file="db/changelog/2022_10_21_6_create_answer_questions_table.xml"/>
     <include context="base" file="db/changelog/2022_10_23_7_create_feedbacks_table.xml"/>
     <include context="base" file="db/changelog/2022_11_08_8_change_length_need_improve.xml"/>
+    <include context="base" file="db/changelog/2023_01_31_9_increased_length_field_need_improve.xml"/>
 
 </databaseChangeLog>
