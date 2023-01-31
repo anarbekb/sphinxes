@@ -38,7 +38,7 @@
     }
 })();
 
-function copyImproveTopics() {
+function copyToClipboardImproveTopics() {
     const improvesTopic = document.getElementsByClassName('improve-topic');
     let resultText = '';
     for (let i = 0; i < improvesTopic.length; i++) {
@@ -48,5 +48,30 @@ function copyImproveTopics() {
         }
     }
 
-    navigator.clipboard.writeText(resultText).then(r => console.log("Copied the text: " + r));
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+        console.error('Unable to copy to clipboard', err);
+    }
+
+    if (window.isSecureContext && navigator.clipboard) {
+        navigator.clipboard.writeText(resultText).then(r => console.log("Copied the text: " + r));
+    } else {
+        console.info("Use deprecated");
+        unsecuredCopyToClipboard(resultText);
+    }
+}
+
+function unsecuredCopyToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        document.execCommand('copy');
+    } catch (err) {
+        console.error('Unable to copy to clipboard', err);
+    }
+    document.body.removeChild(textArea);
 }

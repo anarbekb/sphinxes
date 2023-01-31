@@ -154,7 +154,7 @@
 
     <div class="card" th:if="${questionnaire.status.contentEquals('CLOSED') && questionnaire.feedback != null}">
         <div class="card-body">
-            <h5 class="card-title">What to improve <button type="button" onclick="copyImproveTopics()"
+            <h5 class="card-title">What to improve <button type="button" onclick="copyToClipboardImproveTopics()"
                                                            class="btn btn-outline-secondary btn-sm">Copy text</button></h5>
             <div th:each="topic : ${#strings.arraySplit(questionnaire.feedback.needImprove, ',')}">
                 <p class="muted improve-topic" th:text="${topic}"></p>
