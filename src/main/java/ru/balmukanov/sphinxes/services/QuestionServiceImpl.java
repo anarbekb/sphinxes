@@ -15,6 +15,7 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionMapper questionMapper;
 
     @Override
+    @Transactional
     public void toAnswerQuestion(List<Question> questions, long answerTopicId) {
         questions.stream().map(questionMapper::mapToAnswerQuestion).forEach(answerQuestion -> {
             answerQuestion.setAnswerTopicId(answerTopicId);
