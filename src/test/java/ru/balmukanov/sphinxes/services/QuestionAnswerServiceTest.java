@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
-class QuestionServiceTest {
+class QuestionAnswerServiceTest {
     private final AnswerQuestionRepository answerQuestionRepository = Mockito.mock(AnswerQuestionRepository.class);
     private final QuestionMapper questionMapper = Mockito.spy(QuestionMapperImpl.class);
     private final ArgumentCaptor<AnswerQuestion> answerQuestionArgumentCaptor = ArgumentCaptor
@@ -31,7 +31,7 @@ class QuestionServiceTest {
     @Test
     void toAnswerQuestion_happyPath() {
         doNothing().when(answerQuestionRepository).save(isA(AnswerQuestion.class));
-        QuestionService questionService = new QuestionServiceImpl(answerQuestionRepository, questionMapper);
+        QuestionAnswerService questionAnswerService = new QuestionAnswerServiceImpl(answerQuestionRepository, questionMapper);
         var question = new Question();
         question.setId(1L);
         question.setPoint("Where can JVM work?");
@@ -41,7 +41,7 @@ class QuestionServiceTest {
         question.setAnswer("JVM works on all platforms");
         question.setSubject("JVM");
 
-        questionService.toAnswerQuestion(List.of(question), 1L);
+        questionAnswerService.toAnswerQuestion(List.of(question), 1L);
 
         verify(answerQuestionRepository).save(answerQuestionArgumentCaptor.capture());
     }
@@ -49,9 +49,9 @@ class QuestionServiceTest {
     @Test
     void estimate_happyPath() {
         doNothing().when(answerQuestionRepository).setEvaluation(anyLong(), anyInt());
-        QuestionService questionService = new QuestionServiceImpl(answerQuestionRepository, questionMapper);
+        QuestionAnswerService questionAnswerService = new QuestionAnswerServiceImpl(answerQuestionRepository, questionMapper);
 
-        questionService.estimate(1L, 1);
+        questionAnswerService.estimate(1L, 1);
 
         verify(answerQuestionRepository).setEvaluation(answerCommentIdArgumentCaptor.capture(),
                 evaluationArgumentCaptor.capture());

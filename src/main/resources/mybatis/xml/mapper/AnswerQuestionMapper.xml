@@ -29,6 +29,20 @@
              left join sphinxex.questionnaires q on at.questionnaire_id = q.id
         where q.id = #{questionnaireId} and aq.evaluation = 1
     </select>
+
+    <select id="findById" resultMap="answerQuestionMap">
+        select aq.id              as id,
+               aq.point           as point,
+               aq.answer          as answer,
+               aq.evaluation      as evaluation,
+               aq.answer_topic_id as answer_topic_id,
+               aq.level           as level,
+               aq.subject         as subject,
+               aq.links           as links,
+               aq.evaluation      as evaluation
+        from sphinxex.answer_questions aq where aq.id = #{id}
+    </select>
+
     <resultMap id="answerQuestionMap" type="AnswerQuestion">
         <result property="id" column="id"/>
         <result property="point" column="point"/>

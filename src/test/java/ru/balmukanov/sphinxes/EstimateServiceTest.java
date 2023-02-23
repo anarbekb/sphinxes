@@ -13,8 +13,8 @@ import ru.balmukanov.sphinxes.entities.*;
 import ru.balmukanov.sphinxes.repository.AnswerTopicRepository;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
 import ru.balmukanov.sphinxes.services.EstimateServiceImpl;
-import ru.balmukanov.sphinxes.services.QuestionService;
-import ru.balmukanov.sphinxes.services.QuestionServiceImpl;
+import ru.balmukanov.sphinxes.services.QuestionAnswerService;
+import ru.balmukanov.sphinxes.services.QuestionAnswerServiceImpl;
 
 import java.time.Instant;
 import java.util.List;
@@ -25,19 +25,25 @@ import static org.mockito.Mockito.*;
 class EstimateServiceTest {
 	private final QuestionnaireRepository questionnaireRepository = Mockito.mock(QuestionnaireRepository.class);
 	private final AnswerTopicRepository answerTopicRepository = Mockito.mock(AnswerTopicRepository.class);
-	private final QuestionService questionService = Mockito.mock(QuestionServiceImpl.class);
+	private final QuestionAnswerService questionAnswerService = Mockito.mock(QuestionAnswerServiceImpl.class);
 	private final ArgumentCaptor<AnswerTopic> answerTopicArgumentCaptor = ArgumentCaptor.forClass(AnswerTopic.class);
 	private final ArgumentCaptor<Questionnaire> questionnaireArgumentCaptor = ArgumentCaptor
 			.forClass(Questionnaire.class);
 
 	@Test
 	void estimate_happyPath() {
-		doNothing().when(questionService).estimate(ArgumentMatchers.anyLong(), ArgumentMatchers.anyInt());
+		Questionnaire questionnaire = createQuestionnaire();
+		when(questionAnswerService.findById(ArgumentMatchers.anyLong())).thenReturn(
+				questionnaire.getTopics().stream()
+						.flatMap(answerTopic -> answerTopic.getQuestions().stream())
+						.filter(answerQuestion -> answerQuestion.getId() == 1)
+						.findFirst().orElseThrow());
+		doNothing().when(questionAnswerService).estimate(ArgumentMatchers.anyLong(), ArgumentMatchers.anyInt());
 		doNothing().when(answerTopicRepository).update(ArgumentMatchers.isA(AnswerTopic.class));
 		doNothing().when(questionnaireRepository).update(ArgumentMatchers.isA(Questionnaire.class));
 		when(questionnaireRepository.findByIdWithTopicsAndQuestions(ArgumentMatchers.anyLong()))
-				.thenReturn(createQuestionnaire());
-		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionService);
+				.thenReturn(questionnaire);
+		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionAnswerService);
 
 		var estimateDto = new EstimateDto();
 		estimateDto.setEvaluation(4);
@@ -45,14 +51,14 @@ class EstimateServiceTest {
 		estimateDto.setQuestionnaireId(1L);
 		estimateService.estimate(estimateDto);
 
-		Mockito.verify(answerTopicRepository, times(2)).update(answerTopicArgumentCaptor.capture());
+		Mockito.verify(answerTopicRepository).update(answerTopicArgumentCaptor.capture());
 		Mockito.verify(questionnaireRepository).update(questionnaireArgumentCaptor.capture());
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideArguments")
 	void estimate_test(List<Integer> sources, int expected) {
-		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionService);
+		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionAnswerService);
 		Assertions.assertEquals(expected, estimateService.estimate(sources));
 	}
 

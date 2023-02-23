@@ -24,7 +24,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private final FeedbackRepository feedbackRepository;
     private final QuestionnaireMapper questionnaireMapper;
     private final TopicService topicService;
-    private final QuestionService questionService;
+    private final QuestionAnswerService questionAnswerService;
 
     @Override
     @Transactional
@@ -35,7 +35,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         questionnaireRepository.save(questionnaire);
         for (Topic topic : topics) {
             AnswerTopic answerTopic = topicService.toAnswer(topic, questionnaire.getId());
-            questionService.toAnswerQuestion(topic.getQuestions(), answerTopic.getId());
+            questionAnswerService.toAnswerQuestion(topic.getQuestions(), answerTopic.getId());
         }
 
         return questionnaire.getId();

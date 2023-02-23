@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import ru.balmukanov.sphinxes.entities.AnswerQuestion;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface AnswerQuestionRepository {
@@ -13,4 +14,6 @@ public interface AnswerQuestionRepository {
     void setEvaluation(long id, int evaluation);
 
     List<AnswerQuestion> findFailed(long questionnaireId);
+
+    Optional<AnswerQuestion> findById(long id);
 }

@@ -4,13 +4,15 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.balmukanov.sphinxes.entities.AnswerQuestion;
 import ru.balmukanov.sphinxes.entities.Question;
+import ru.balmukanov.sphinxes.exception.AnswerQuestionNotFoundException;
 import ru.balmukanov.sphinxes.mappers.QuestionMapper;
 import ru.balmukanov.sphinxes.repository.AnswerQuestionRepository;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionServiceImpl implements QuestionService {
+public class QuestionAnswerServiceImpl implements QuestionAnswerService {
     private final AnswerQuestionRepository answerQuestionRepository;
     private final QuestionMapper questionMapper;
 
@@ -27,5 +29,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     public void estimate(long answerCommentId, int evaluation) {
         answerQuestionRepository.setEvaluation(answerCommentId, evaluation);
+    }
+
+    @Override
+    public AnswerQuestion findById(long id) {
+        return answerQuestionRepository.findById(id).orElseThrow(AnswerQuestionNotFoundException::new);
     }
 }
