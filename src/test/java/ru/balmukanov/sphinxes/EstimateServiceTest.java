@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import ru.balmukanov.sphinxes.dto.request.EstimateDto;
@@ -19,13 +20,15 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class EstimateServiceTest {
 	private final QuestionnaireRepository questionnaireRepository = Mockito.mock(QuestionnaireRepository.class);
 	private final AnswerTopicRepository answerTopicRepository = Mockito.mock(AnswerTopicRepository.class);
 	private final QuestionService questionService = Mockito.mock(QuestionServiceImpl.class);
+	private final ArgumentCaptor<AnswerTopic> answerTopicArgumentCaptor = ArgumentCaptor.forClass(AnswerTopic.class);
+	private final ArgumentCaptor<Questionnaire> questionnaireArgumentCaptor = ArgumentCaptor
+			.forClass(Questionnaire.class);
 
 	@Test
 	void estimate_happyPath() {
@@ -41,6 +44,9 @@ class EstimateServiceTest {
 		estimateDto.setQuestionId(1L);
 		estimateDto.setQuestionnaireId(1L);
 		estimateService.estimate(estimateDto);
+
+		Mockito.verify(answerTopicRepository, times(2)).update(answerTopicArgumentCaptor.capture());
+		Mockito.verify(questionnaireRepository).update(questionnaireArgumentCaptor.capture());
 	}
 
 	@ParameterizedTest
@@ -70,22 +76,49 @@ class EstimateServiceTest {
 	}
 
 	private Questionnaire createQuestionnaire() {
-		var answerQuestion = new AnswerQuestion();
-		answerQuestion.setId(1L);
-		answerQuestion.setAnswerTopicId(1L);
-		answerQuestion.setEvaluation(4);
-		answerQuestion.setPoint("How work hashCode?");
-		answerQuestion.setLinks(null);
-		answerQuestion.setAnswer("Test answer");
-		answerQuestion.setSubject("hashCode");
-		answerQuestion.setLevel(Level.M1);
+		var answerQuestionHashCode = new AnswerQuestion();
+		answerQuestionHashCode.setId(1L);
+		answerQuestionHashCode.setAnswerTopicId(1L);
+		answerQuestionHashCode.setEvaluation(4);
+		answerQuestionHashCode.setPoint("How work hashCode?");
+		answerQuestionHashCode.setLinks(null);
+		answerQuestionHashCode.setAnswer("Test answer");
+		answerQuestionHashCode.setSubject("hashCode");
+		answerQuestionHashCode.setLevel(Level.M1);
 
-		var answerTopic = new AnswerTopic();
-		answerTopic.setId(1L);
-		answerTopic.setName("Java");
-		answerTopic.setQuestionnaireId(1L);
-		answerTopic.setEvaluation(null);
-		answerTopic.setQuestions(List.of(answerQuestion));
+		var answerQuestionHashMap = new AnswerQuestion();
+		answerQuestionHashMap.setId(2L);
+		answerQuestionHashMap.setAnswerTopicId(1L);
+		answerQuestionHashMap.setEvaluation(3);
+		answerQuestionHashMap.setPoint("How work HashMap?");
+		answerQuestionHashMap.setLinks(null);
+		answerQuestionHashMap.setAnswer("Test answer");
+		answerQuestionHashMap.setSubject("HashMap");
+		answerQuestionHashMap.setLevel(Level.M1);
+
+		var answerTopicJava = new AnswerTopic();
+		answerTopicJava.setId(1L);
+		answerTopicJava.setName("Java");
+		answerTopicJava.setQuestionnaireId(1L);
+		answerTopicJava.setEvaluation(3);
+		answerTopicJava.setQuestions(List.of(answerQuestionHashCode, answerQuestionHashMap));
+
+		var answerQuestionIndexes = new AnswerQuestion();
+		answerQuestionIndexes.setId(3L);
+		answerQuestionIndexes.setAnswerTopicId(2L);
+		answerQuestionIndexes.setEvaluation(2);
+		answerQuestionIndexes.setPoint("How work Indexes?");
+		answerQuestionIndexes.setLinks(null);
+		answerQuestionIndexes.setAnswer("Test answer");
+		answerQuestionIndexes.setSubject("Database indexes");
+		answerQuestionIndexes.setLevel(Level.M1);
+
+		var answerTopicDatabase = new AnswerTopic();
+		answerTopicDatabase.setId(2L);
+		answerTopicDatabase.setName("Database");
+		answerTopicDatabase.setQuestionnaireId(1L);
+		answerTopicDatabase.setEvaluation(2);
+		answerTopicDatabase.setQuestions(List.of(answerQuestionIndexes));
 
 		var questionnaire = new Questionnaire();
 		questionnaire.setId(1L);
@@ -94,7 +127,7 @@ class EstimateServiceTest {
 		questionnaire.setStatus(QuestionnaireStatus.PROGRESS);
 		questionnaire.setProject("Test company name");
 		questionnaire.setCandidate("Ivanov Ivan");
-		questionnaire.setTopics(List.of(answerTopic));
+		questionnaire.setTopics(List.of(answerTopicJava, answerTopicDatabase));
 
 		return questionnaire;
 	}
