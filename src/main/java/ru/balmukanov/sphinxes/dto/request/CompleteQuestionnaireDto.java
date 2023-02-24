@@ -1,18 +1,20 @@
 package ru.balmukanov.sphinxes.dto.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Getter
 @Validated
+@RequiredArgsConstructor
 public class CompleteQuestionnaireDto {
     @Min(1)
-    private long id;
+    private final long id;
     @NotEmpty
-    private String strengths;
+    private final String strengths;
     @NotEmpty
-    private String weaknesses;
+    private final String weaknesses;
 }
