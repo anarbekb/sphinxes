@@ -1,17 +1,20 @@
 package ru.balmukanov.sphinxes.dto.request;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
-@Data
+@Setter
+@Getter
 @Validated
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateQuestionnaireDto {
-    @NotEmpty
+    @NotBlank
     private String candidateFullName;
-    @NotEmpty
+    @NotBlank
     private String project;
-    @NotEmpty
+    @NotBlank
     private String candidateLevel;
 }

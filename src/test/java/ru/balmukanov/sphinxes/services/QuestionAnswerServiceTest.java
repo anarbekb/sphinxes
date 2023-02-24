@@ -2,7 +2,6 @@ package ru.balmukanov.sphinxes.services;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import org.mockito.Mockito;
 import ru.balmukanov.sphinxes.entities.AnswerQuestion;
@@ -21,12 +20,6 @@ import static org.mockito.Mockito.verify;
 class QuestionAnswerServiceTest {
     private final AnswerQuestionRepository answerQuestionRepository = Mockito.mock(AnswerQuestionRepository.class);
     private final QuestionMapper questionMapper = Mockito.spy(QuestionMapperImpl.class);
-    private final ArgumentCaptor<AnswerQuestion> answerQuestionArgumentCaptor = ArgumentCaptor
-            .forClass(AnswerQuestion.class);
-    private final ArgumentCaptor<Long> answerCommentIdArgumentCaptor = ArgumentCaptor
-            .forClass(Long.class);
-    private final ArgumentCaptor<Integer> evaluationArgumentCaptor = ArgumentCaptor
-            .forClass(Integer.class);
 
     @Test
     void toAnswerQuestion_happyPath() {
@@ -43,7 +36,7 @@ class QuestionAnswerServiceTest {
 
         questionAnswerService.toAnswerQuestionAndSave(List.of(question), 1L);
 
-        verify(answerQuestionRepository).save(answerQuestionArgumentCaptor.capture());
+        verify(answerQuestionRepository).save(isA(AnswerQuestion.class));
     }
 
     @Test
@@ -53,7 +46,6 @@ class QuestionAnswerServiceTest {
 
         questionAnswerService.estimate(1L, 1);
 
-        verify(answerQuestionRepository).setEvaluation(answerCommentIdArgumentCaptor.capture(),
-                evaluationArgumentCaptor.capture());
+        verify(answerQuestionRepository).setEvaluation(anyLong(), anyInt());
     }
 }

@@ -1,7 +1,6 @@
 package ru.balmukanov.sphinxes.services;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import ru.balmukanov.sphinxes.entities.AnswerTopic;
 import ru.balmukanov.sphinxes.entities.Level;
@@ -22,7 +21,6 @@ class TopicServiceTest {
     private final AnswerTopicRepository answerTopicRepository = Mockito.mock(AnswerTopicRepository.class);
     private final TopicRepository topicRepository = Mockito.mock(TopicRepository.class);
     private final TopicMapper topicMapper = Mockito.spy(TopicMapperImpl.class);
-    private final ArgumentCaptor<AnswerTopic> answerTopicArgumentCaptor = ArgumentCaptor.forClass(AnswerTopic.class);
 
     @Test
     void toAnswer_happyPath() {
@@ -35,7 +33,7 @@ class TopicServiceTest {
 
         AnswerTopic answerTopic = topicService.toAnswer(topic, questionnaireId);
 
-        verify(answerTopicRepository).save(answerTopicArgumentCaptor.capture());
+        verify(answerTopicRepository).save(isA(AnswerTopic.class));
         assertEquals(topic.getName(), answerTopic.getName());
         assertEquals(topic.getQuestions().size(), answerTopic.getQuestions().size());
         assertEquals(questionnaireId, answerTopic.getQuestionnaireId());

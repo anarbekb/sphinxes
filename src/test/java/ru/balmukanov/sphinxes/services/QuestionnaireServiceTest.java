@@ -2,17 +2,20 @@ package ru.balmukanov.sphinxes.services;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import ru.balmukanov.sphinxes.dto.request.CompleteQuestionnaireDto;
-import ru.balmukanov.sphinxes.entities.Questionnaire;
-import ru.balmukanov.sphinxes.entities.QuestionnaireStatus;
+import ru.balmukanov.sphinxes.dto.request.CreateQuestionnaireDto;
+import ru.balmukanov.sphinxes.entities.*;
 import ru.balmukanov.sphinxes.exception.ClosedQuestionnaireException;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapper;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapperImpl;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 class QuestionnaireServiceTest {
     private final QuestionnaireRepository questionnaireRepository = Mockito.mock(QuestionnaireRepository.class);
@@ -29,7 +32,7 @@ class QuestionnaireServiceTest {
         var questionnaire = new Questionnaire();
         questionnaire.setId(1L);
         questionnaire.setStatus(QuestionnaireStatus.CLOSED);
-        Mockito.when(questionnaireRepository.findById(ArgumentMatchers.anyLong())).thenReturn(questionnaire);
+        when(questionnaireRepository.findById(anyLong())).thenReturn(questionnaire);
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
                 questionnaireMapper, topicService, questionAnswerService);
 
@@ -41,7 +44,7 @@ class QuestionnaireServiceTest {
         var questionnaire = new Questionnaire();
         questionnaire.setId(1L);
         questionnaire.setStatus(QuestionnaireStatus.PROGRESS);
-        Mockito.when(questionnaireRepository.findById(ArgumentMatchers.anyLong())).thenReturn(questionnaire);
+        when(questionnaireRepository.findById(anyLong())).thenReturn(questionnaire);
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
                 questionnaireMapper, topicService, questionAnswerService);
 
@@ -53,15 +56,59 @@ class QuestionnaireServiceTest {
         var questionnaire = new Questionnaire();
         questionnaire.setId(1L);
         questionnaire.setStatus(QuestionnaireStatus.PROGRESS);
-        Mockito.when(questionnaireRepository.findById(ArgumentMatchers.anyLong())).thenReturn(questionnaire);
-        Mockito.doNothing().when(questionnaireRepository).save(ArgumentMatchers.isA(Questionnaire.class));
-        Mockito.doNothing().when(feedbackService).create(ArgumentMatchers.isA(CompleteQuestionnaireDto.class));
+        when(questionnaireRepository.findById(anyLong())).thenReturn(questionnaire);
+        doNothing().when(questionnaireRepository).save(isA(Questionnaire.class));
+        doNothing().when(feedbackService).create(isA(CompleteQuestionnaireDto.class));
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
                 questionnaireMapper, topicService, questionAnswerService);
 
         questionnaireService.completeQuestionnaire(new CompleteQuestionnaireDto(1L, "test", "test"));
 
-        Mockito.verify(questionnaireRepository).update(questionnaireArgumentCaptor.capture());
+        verify(questionnaireRepository).update(questionnaireArgumentCaptor.capture());
         assertEquals(QuestionnaireStatus.CLOSED, questionnaireArgumentCaptor.getValue().getStatus());
+    }
+
+    @Test
+    void create_happyPath() {
+        when(topicService.findByLevels(anyList())).thenReturn(List.of(createTopic()));
+        when(topicService.toAnswer(isA(Topic.class), anyLong())).thenReturn(createAnswerTopic());
+        doNothing().when(questionAnswerService).toAnswerQuestionAndSave(anyList(), anyLong());
+        doNothing().when(questionnaireRepository).save(isA(Questionnaire.class));
+        var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
+                questionnaireMapper, topicService, questionAnswerService);
+
+        questionnaireService.create(new CreateQuestionnaireDto("Ivanov Ivan",
+                "Test project name", Level.M1.name()));
+
+        verify(topicService).toAnswer(isA(Topic.class), anyLong());
+        verify(questionAnswerService).toAnswerQuestionAndSave(anyList(), anyLong());
+
+    }
+
+    private Topic createTopic() {
+        var question = new Question();
+        question.setId(1);
+        question.setTopicId(1);
+        question.setAnswer("Test answer");
+        question.setLevel(Level.J1);
+        question.setSubject("Database indexes");
+        question.setPoint("How work indexes?");
+        question.setLinks(null);
+
+        var topic = new Topic();
+        topic.setId(1L);
+        topic.setName("Database");
+        topic.setQuestions(List.of(question));
+
+        return topic;
+    }
+
+    private AnswerTopic createAnswerTopic() {
+        var answerTopic = new AnswerTopic();
+        answerTopic.setId(1L);
+        answerTopic.setName("Database");
+        answerTopic.setQuestionnaireId(1L);
+
+        return answerTopic;
     }
 }

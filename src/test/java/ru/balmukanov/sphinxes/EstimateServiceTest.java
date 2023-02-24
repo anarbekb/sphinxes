@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import ru.balmukanov.sphinxes.dto.request.EstimateDto;
@@ -26,9 +25,6 @@ class EstimateServiceTest {
 	private final QuestionnaireRepository questionnaireRepository = Mockito.mock(QuestionnaireRepository.class);
 	private final AnswerTopicRepository answerTopicRepository = Mockito.mock(AnswerTopicRepository.class);
 	private final QuestionAnswerService questionAnswerService = Mockito.mock(QuestionAnswerServiceImpl.class);
-	private final ArgumentCaptor<AnswerTopic> answerTopicArgumentCaptor = ArgumentCaptor.forClass(AnswerTopic.class);
-	private final ArgumentCaptor<Questionnaire> questionnaireArgumentCaptor = ArgumentCaptor
-			.forClass(Questionnaire.class);
 
 	@Test
 	void estimate_happyPath() {
@@ -51,8 +47,8 @@ class EstimateServiceTest {
 		estimateDto.setQuestionnaireId(1L);
 		estimateService.estimate(estimateDto);
 
-		Mockito.verify(answerTopicRepository).update(answerTopicArgumentCaptor.capture());
-		Mockito.verify(questionnaireRepository).update(questionnaireArgumentCaptor.capture());
+		Mockito.verify(answerTopicRepository).update(isA(AnswerTopic.class));
+		Mockito.verify(questionnaireRepository).update(isA(Questionnaire.class));
 	}
 
 	@ParameterizedTest
