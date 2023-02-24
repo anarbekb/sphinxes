@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Validated
@@ -13,8 +13,8 @@ import javax.validation.constraints.NotEmpty;
 public class CompleteQuestionnaireDto {
     @Min(1)
     private final long id;
-    @NotEmpty
+    @NotBlank
     private final String strengths;
-    @NotEmpty
+    @NotBlank
     private final String weaknesses;
 }
