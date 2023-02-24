@@ -8,16 +8,13 @@ import ru.balmukanov.sphinxes.entities.QuestionnaireStatus;
 import ru.balmukanov.sphinxes.exception.ClosedQuestionnaireException;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapper;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapperImpl;
-import ru.balmukanov.sphinxes.repository.AnswerQuestionRepository;
-import ru.balmukanov.sphinxes.repository.FeedbackRepository;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionnaireServiceTest {
     private final QuestionnaireRepository questionnaireRepository = Mockito.mock(QuestionnaireRepository.class);
-    private final AnswerQuestionRepository answerQuestionRepository = Mockito.mock(AnswerQuestionRepository.class);
-    private final FeedbackRepository feedbackRepository = Mockito.mock(FeedbackRepository.class);
+    private final FeedbackService feedbackService = Mockito.mock(FeedbackServiceImpl.class);
     private final QuestionnaireMapper questionnaireMapper = Mockito.spy(QuestionnaireMapperImpl.class);
     private final TopicService topicService = Mockito.mock(TopicService.class);
     private final QuestionAnswerService questionAnswerService = Mockito.mock(QuestionAnswerServiceImpl.class);
@@ -29,8 +26,8 @@ class QuestionnaireServiceTest {
         questionnaire.setId(1L);
         questionnaire.setStatus(QuestionnaireStatus.CLOSED);
         Mockito.when(questionnaireRepository.findById(ArgumentMatchers.anyLong())).thenReturn(questionnaire);
-        var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, answerQuestionRepository,
-                feedbackRepository, questionnaireMapper, topicService, questionAnswerService);
+        var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
+                questionnaireMapper, topicService, questionAnswerService);
 
         assertThrows(ClosedQuestionnaireException.class, () -> questionnaireService.checkAvailabilityForEdit(1L));
     }
@@ -41,8 +38,8 @@ class QuestionnaireServiceTest {
         questionnaire.setId(1L);
         questionnaire.setStatus(QuestionnaireStatus.PROGRESS);
         Mockito.when(questionnaireRepository.findById(ArgumentMatchers.anyLong())).thenReturn(questionnaire);
-        var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, answerQuestionRepository,
-                feedbackRepository, questionnaireMapper, topicService, questionAnswerService);
+        var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
+                questionnaireMapper, topicService, questionAnswerService);
 
         assertDoesNotThrow(() -> questionnaireService.checkAvailabilityForEdit(1L));
     }
