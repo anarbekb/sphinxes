@@ -6,7 +6,7 @@ import ru.balmukanov.sphinxes.entities.AnswerQuestion;
 import ru.balmukanov.sphinxes.entities.Question;
 
 public interface QuestionAnswerService {
-    void toAnswerQuestion(List<Question> questions, long answerTopicId);
+    void toAnswerQuestionAndSave(List<Question> questions, long answerTopicId);
 
     void estimate(long answerCommentId, int evaluation);
 

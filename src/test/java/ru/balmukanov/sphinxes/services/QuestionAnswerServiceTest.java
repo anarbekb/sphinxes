@@ -41,7 +41,7 @@ class QuestionAnswerServiceTest {
         question.setAnswer("JVM works on all platforms");
         question.setSubject("JVM");
 
-        questionAnswerService.toAnswerQuestion(List.of(question), 1L);
+        questionAnswerService.toAnswerQuestionAndSave(List.of(question), 1L);
 
         verify(answerQuestionRepository).save(answerQuestionArgumentCaptor.capture());
     }

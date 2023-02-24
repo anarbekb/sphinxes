@@ -24,14 +24,14 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     @Transactional
-    public long generateQuestionnaire(CreateQuestionnaireDto request) {
+    public long create(CreateQuestionnaireDto request) {
         List<Topic> topics = topicService.findByLevels(Level.adjacentLevels(Level.valueOf(request.getCandidateLevel())));
 
         Questionnaire questionnaire = questionnaireMapper.mapFromRequest(request);
         questionnaireRepository.save(questionnaire);
         for (Topic topic : topics) {
             AnswerTopic answerTopic = topicService.toAnswer(topic, questionnaire.getId());
-            questionAnswerService.toAnswerQuestion(topic.getQuestions(), answerTopic.getId());
+            questionAnswerService.toAnswerQuestionAndSave(topic.getQuestions(), answerTopic.getId());
         }
 
         return questionnaire.getId();

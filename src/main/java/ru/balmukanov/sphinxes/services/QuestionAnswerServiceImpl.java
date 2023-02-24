@@ -18,7 +18,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 
     @Override
     @Transactional
-    public void toAnswerQuestion(List<Question> questions, long answerTopicId) {
+    public void toAnswerQuestionAndSave(List<Question> questions, long answerTopicId) {
         questions.stream().map(questionMapper::mapToAnswerQuestion).forEach(answerQuestion -> {
             answerQuestion.setAnswerTopicId(answerTopicId);
             answerQuestionRepository.save(answerQuestion);

@@ -11,7 +11,7 @@ public interface QuestionnaireService {
 
     List<QuestionnaireDto> findAllWithFeedback();
 
-    long generateQuestionnaire(CreateQuestionnaireDto request);
+    long create(CreateQuestionnaireDto request);
 
     void checkAvailabilityForEdit(long questionnaireId);
 

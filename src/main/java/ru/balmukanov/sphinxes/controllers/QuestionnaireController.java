@@ -25,7 +25,7 @@ public class QuestionnaireController {
 
     @PostMapping("generate")
     public String generateQuestionnaire(@ModelAttribute @Validated CreateQuestionnaireDto requestQuestionnaire) {
-        long questionnaireId = questionnaireService.generateQuestionnaire(requestQuestionnaire);
+        long questionnaireId = questionnaireService.create(requestQuestionnaire);
         return "redirect:/questionnaire/" + questionnaireId;
     }
 
