@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="25-02-2023-create-roles-table" author="abalmukanov">
+        <createTable tableName="roles" schemaName="sphinxex" remarks="Роли">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Идентификатор записи">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)" remarks="Имя">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert tableName="roles" schemaName="sphinxex">
+            <column name="name">ROLE_USER</column>
+        </insert>
+        <insert tableName="roles" schemaName="sphinxex">
+            <column name="name">ROLE_ADMIN</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
