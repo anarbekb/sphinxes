@@ -37,7 +37,7 @@ class EstimateServiceTest {
 		doNothing().when(questionAnswerService).estimate(ArgumentMatchers.anyLong(), ArgumentMatchers.anyInt());
 		doNothing().when(answerTopicRepository).update(ArgumentMatchers.isA(AnswerTopic.class));
 		doNothing().when(questionnaireRepository).update(ArgumentMatchers.isA(Questionnaire.class));
-		when(questionnaireRepository.findByIdWithTopicsAndQuestions(ArgumentMatchers.anyLong()))
+		when(questionnaireRepository.findByIdFullRelationsMapped(ArgumentMatchers.anyLong()))
 				.thenReturn(questionnaire);
 		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionAnswerService);
 
@@ -122,6 +122,12 @@ class EstimateServiceTest {
 		answerTopicDatabase.setEvaluation(2);
 		answerTopicDatabase.setQuestions(List.of(answerQuestionIndexes));
 
+		var creator = new User();
+		creator.setId(1L);
+		creator.setPassword("");
+		creator.setActive(true);
+		creator.setUsername("test");
+
 		var questionnaire = new Questionnaire();
 		questionnaire.setId(1L);
 		questionnaire.setEvaluation(null);
@@ -129,6 +135,7 @@ class EstimateServiceTest {
 		questionnaire.setStatus(QuestionnaireStatus.PROGRESS);
 		questionnaire.setProject("Test company name");
 		questionnaire.setCandidate("Ivanov Ivan");
+		questionnaire.setCreator(creator);
 		questionnaire.setTopics(List.of(answerTopicJava, answerTopicDatabase));
 
 		return questionnaire;

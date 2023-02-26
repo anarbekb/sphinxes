@@ -16,5 +16,6 @@
     <include context="base" file="/db/changelog/2023_02_25_10_create_users_table.xml"/>
     <include context="base" file="/db/changelog/2023_02_25_11_create_roles_table.xml"/>
     <include context="base" file="/db/changelog/2023_02_25_12_create_roles_users_table.xml"/>
+    <include context="base" file="/db/changelog/2023_02_25_13_add_column_user_id_questionnaires.xml"/>
 
 </databaseChangeLog>

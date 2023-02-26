@@ -33,9 +33,8 @@ public class EstimateServiceImpl implements EstimateService {
 	public void estimate(EstimateDto estimateDto) {
 		AnswerQuestion answerQuestion = questionAnswerService.findById(estimateDto.getQuestionId());
 		questionAnswerService.estimate(estimateDto.getQuestionId(), estimateDto.getEvaluation());
-		Questionnaire questionnaire = questionnaireRepository.findByIdWithTopicsAndQuestions(
-				estimateDto.getQuestionnaireId()
-		);
+		Questionnaire questionnaire = questionnaireRepository.findByIdFullRelationsMapped(
+				estimateDto.getQuestionnaireId());
 
 		AnswerTopic updatedAnswerTopic = questionnaire.getTopics().stream()
 				.filter(answerTopic -> answerTopic.getId() == answerQuestion.getAnswerTopicId())
