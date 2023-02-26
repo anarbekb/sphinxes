@@ -2,6 +2,7 @@ package ru.balmukanov.sphinxes.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import ru.balmukanov.sphinxes.dto.request.CreateQuestionDto;
 import ru.balmukanov.sphinxes.entities.AnswerQuestion;
 import ru.balmukanov.sphinxes.entities.Question;
 
@@ -9,4 +10,6 @@ import ru.balmukanov.sphinxes.entities.Question;
 public interface QuestionMapper {
     @Mapping(target = "id", ignore = true)
     AnswerQuestion mapToAnswerQuestion(Question question);
+
+    Question mapToQuestion(CreateQuestionDto request);
 }

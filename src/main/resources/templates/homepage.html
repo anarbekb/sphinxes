@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -23,9 +23,9 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Generate</h5>
+            <h5 class="card-title">Создать новый опросник</h5>
 
-            <form action="#" th:action="@{/questionnaire/generate}" th:object="${requestQuestionnaire}" method="post">
+            <form th:action="@{/questionnaire/generate}" th:object="${requestQuestionnaire}" method="post">
                 <div class="row g-2">
                     <div class="col-md">
                         <div class="form-floating">
@@ -56,9 +56,13 @@
                             <label for="candidateLevel">Уровень кандидата</label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Создать опросник</button>
+                    <button type="submit" class="btn btn-primary">Создать</button>
                 </div>
             </form>
+        </div>
+        <div class="card-body" sec:authorize="hasRole('ROLE_ADMIN')">
+            <h5 class="card-title">Создать новый вопрос</h5>
+            <p class="card-text">Создать вопрос для последующего использования в опросниках можно на <a href="/create-question">странице</a></p>
         </div>
     </div>
 

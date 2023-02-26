@@ -1,6 +1,7 @@
 package ru.balmukanov.sphinxes.mappers;
 
 import org.junit.jupiter.api.Test;
+import ru.balmukanov.sphinxes.dto.request.CreateQuestionDto;
 import ru.balmukanov.sphinxes.entities.AnswerQuestion;
 import ru.balmukanov.sphinxes.entities.Level;
 import ru.balmukanov.sphinxes.entities.Question;
@@ -35,5 +36,20 @@ class QuestionMapperTest {
     @Test
     void map_null() {
         assertNull(MAPPER.mapToAnswerQuestion(null));
+    }
+
+    @Test
+    void mapToQuestion_happyPath() {
+        var createQuestionDto = new CreateQuestionDto("How work java?", "Great work!", 1L,
+                "http://localhost", "Java", "J1");
+
+        Question question = MAPPER.mapToQuestion(createQuestionDto);
+
+        assertEquals(createQuestionDto.getAnswer(), question.getAnswer());
+        assertEquals(createQuestionDto.getPoint(), question.getPoint());
+        assertEquals(1L, question.getTopicId());
+        assertEquals("http://localhost", question.getLinks());
+        assertEquals(createQuestionDto.getSubject(), question.getSubject());
+        assertEquals(Level.J1, question.getLevel());
     }
 }
