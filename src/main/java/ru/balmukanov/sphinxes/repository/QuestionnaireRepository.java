@@ -8,11 +8,22 @@ import java.util.List;
 
 @Mapper
 public interface QuestionnaireRepository {
-    Questionnaire findByIdWithTopicsAndQuestions(long id);
+    /**
+     * select questionnaire with topics(include questions), feedback, creator
+     */
+    Questionnaire findByIdFullRelationsMapped(long id);
 
+    Questionnaire findByIdWithUser(long id);
+
+    /**
+     * select only questionnaire
+     */
     Questionnaire findById(long id);
 
-    List<Questionnaire> findAllWithFeedback();
+    /**
+     * select questionnaire with feedback
+     */
+    List<Questionnaire> findByUser(long userId);
 
     void save(@Param("questionnaire") Questionnaire questionnaire);
 

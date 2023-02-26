@@ -74,14 +74,17 @@ class QuestionnaireServiceTest {
         when(topicService.toAnswer(isA(Topic.class), anyLong())).thenReturn(createAnswerTopic());
         doNothing().when(questionAnswerService).toAnswerQuestionAndSave(anyList(), anyLong());
         doNothing().when(questionnaireRepository).save(isA(Questionnaire.class));
+        var creator = new User();
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
                 questionnaireMapper, topicService, questionAnswerService);
 
         questionnaireService.create(new CreateQuestionnaireDto("Ivanov Ivan",
-                "Test project name", Level.M1.name()));
+                "Test project name", Level.M1.name()), creator);
 
         verify(topicService).toAnswer(isA(Topic.class), anyLong());
         verify(questionAnswerService).toAnswerQuestionAndSave(anyList(), anyLong());
+        verify(questionnaireRepository).save(questionnaireArgumentCaptor.capture());
+        assertEquals(creator, questionnaireArgumentCaptor.getValue().getCreator());
 
     }
 

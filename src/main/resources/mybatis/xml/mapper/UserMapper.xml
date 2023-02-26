@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.balmukanov.sphinxes.repository.UserRepository">
+    <select id="findByUsernameWithRoles" resultMap="userMap">
+        select u.id       as id,
+               u.username as username,
+               u.password as password,
+               u.active   as active,
+               r.id       as role_id,
+               r.name     as name
+        from sphinxex.users u
+                 left join sphinxex.roles_users ru on u.id = ru.user_id
+                 left join sphinxex.roles r on r.id = ru.role_id
+        where u.username = #{username}
+    </select>
+
+    <resultMap id="userMap" type="User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="active" column="active"/>
+        <collection property="roles" ofType="ru.balmukanov.sphinxes.entities.Role" resultMap="roleMap"/>
+    </resultMap>
+
+    <resultMap id="roleMap" type="Role">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+</mapper>

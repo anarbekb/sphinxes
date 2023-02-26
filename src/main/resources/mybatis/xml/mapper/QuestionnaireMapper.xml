@@ -5,9 +5,9 @@
 <mapper namespace="ru.balmukanov.sphinxes.repository.QuestionnaireRepository">
     <insert id="save" parameterType="ru.balmukanov.sphinxes.entities.Questionnaire" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
-        insert into sphinxex.questionnaires (candidate, project, created_dt, status, evaluation)
+        insert into sphinxex.questionnaires (candidate, project, created_dt, status, evaluation, user_id)
         values (#{questionnaire.candidate}, #{questionnaire.project}, #{questionnaire.createdDt},
-                #{questionnaire.status}, #{questionnaire.evaluation});
+                #{questionnaire.status}, #{questionnaire.evaluation}, #{questionnaire.creator.id});
     </insert>
 
     <update id="update" parameterType="ru.balmukanov.sphinxes.entities.Questionnaire">
@@ -19,7 +19,33 @@
         where id = #{questionnaire.id}
     </update>
 
-    <select id="findAllWithFeedback" resultMap="questionnaireWithFeedback">
+    <select id="findByIdWithUser" resultMap="questionnaireWithUser">
+        select q.id         as id,
+               q.project    as project,
+               q.evaluation as evaluation,
+               q.candidate  as candidate,
+               q.created_dt as created_dt,
+               q.status     as status,
+               u.id         as creator_id,
+               u.username   as creator_username,
+               u.password   as creator_password,
+               u.active     as creator_active
+        from sphinxex.questionnaires as q
+                 left join sphinxex.users u on q.user_id = u.id
+        where q.id = #{id}
+        order by created_dt desc
+    </select>
+    <resultMap id="questionnaireWithUser" type="ru.balmukanov.sphinxes.entities.Questionnaire">
+        <result property="id" column="id"/>
+        <result property="evaluation" column="evaluation"/>
+        <result property="createdDt" column="created_dt"/>
+        <result property="project" column="project"/>
+        <result property="candidate" column="candidate"/>
+        <result property="status" column="status"/>
+        <association property="creator" columnPrefix="creator_" resultMap="userMap"/>
+    </resultMap>
+
+    <select id="findByUser" resultMap="questionnaireWithFeedback">
         select q.id               as id,
                q.project          as project,
                q.evaluation       as evaluation,
@@ -33,6 +59,7 @@
                f.weaknesses       as feedback_weaknesses
         from sphinxex.questionnaires as q
                  left join sphinxex.feedbacks f on q.id = f.questionnaire_id
+        where q.user_id = #{userId}
         order by created_dt desc
     </select>
     <resultMap id="questionnaireWithFeedback" type="ru.balmukanov.sphinxes.entities.Questionnaire">
@@ -56,7 +83,7 @@
         where id = #{id}
     </select>
 
-    <select id="findByIdWithTopicsAndQuestions" resultMap="questionnairesAnswerTopicAnswerQuestionMap">
+    <select id="findByIdFullRelationsMapped" resultMap="questionnairesAnswerTopicAnswerQuestionMap">
         select q.id                as questionnaires_id,
                q.evaluation        as questionnaires_evaluation,
                q.created_dt        as questionnaires_created_dt,
@@ -79,11 +106,15 @@
                f.need_improve      as feedback_need_improve,
                f.weaknesses        as feedback_weaknesses,
                f.strengths         as feedback_strengths,
-               f.questionnaire_id  as feedback_questionnaire_id
+               u.id                as creator_id,
+               u.username          as creator_username,
+               u.password          as creator_password,
+               u.active            as creator_active
         from sphinxex.questionnaires as q
             left join sphinxex.answer_topics at on q.id = at.questionnaire_id
             left join sphinxex.answer_questions aq on at.id = aq.answer_topic_id
             left join sphinxex.feedbacks f on q.id = f.questionnaire_id
+            left join sphinxex.users u on q.user_id = u.id
         where q.id = #{id}
         order by answer_question_point
     </select>
@@ -95,6 +126,7 @@
         <result property="candidate" column="questionnaires_candidate"/>
         <result property="status" column="questionnaires_status"/>
         <association property="feedback" columnPrefix="feedback_" resultMap="feedbackMap"/>
+        <association property="creator" columnPrefix="creator_" resultMap="userMap"/>
 
         <collection property="topics" ofType="ru.balmukanov.sphinxes.entities.AnswerTopic" column="answer_topic_id">
             <result property="id" column="answer_topic_id"/>
@@ -121,5 +153,11 @@
         <result property="weaknesses" column="weaknesses"/>
         <result property="strengths" column="strengths"/>
         <result property="questionnaireId" column="questionnaire_id"/>
+    </resultMap>
+    <resultMap id="userMap" type="ru.balmukanov.sphinxes.entities.User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="active" column="active"/>
     </resultMap>
 </mapper>

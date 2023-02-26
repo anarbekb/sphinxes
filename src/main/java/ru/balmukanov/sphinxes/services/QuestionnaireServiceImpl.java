@@ -24,10 +24,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     @Transactional
-    public long create(CreateQuestionnaireDto request) {
+    public long create(CreateQuestionnaireDto request, User principal) {
         List<Topic> topics = topicService.findByLevels(Level.adjacentLevels(Level.valueOf(request.getCandidateLevel())));
 
         Questionnaire questionnaire = questionnaireMapper.mapFromRequest(request);
+        questionnaire.setCreator(principal);
         questionnaireRepository.save(questionnaire);
         for (Topic topic : topics) {
             AnswerTopic answerTopic = topicService.toAnswer(topic, questionnaire.getId());
@@ -40,14 +41,14 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     @Override
     @Transactional(readOnly = true)
     public QuestionnaireDto getQuestionnaire(long id) {
-        Questionnaire questionnaire = questionnaireRepository.findByIdWithTopicsAndQuestions(id);
+        Questionnaire questionnaire = questionnaireRepository.findByIdFullRelationsMapped(id);
         return questionnaireMapper.mapToDto(questionnaire);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<QuestionnaireDto> findAllWithFeedback() {
-        return questionnaireRepository.findAllWithFeedback().stream()
+    public List<QuestionnaireDto> findByUserWithFeedback(User principal) {
+        return questionnaireRepository.findByUser(principal.getId()).stream()
             .map(questionnaireMapper::mapToDto)
             .toList();
     }
