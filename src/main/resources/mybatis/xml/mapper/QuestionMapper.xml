@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.balmukanov.sphinxes.repository.QuestionRepository">
+    <insert id="save" parameterType="ru.balmukanov.sphinxes.entities.Question" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into sphinxex.questions (point, answer, topic_id, subject, level, links)
+        values (#{question.point}, #{question.answer}, #{question.topicId}, #{question.subject},
+                #{question.level}, #{question.links});
+    </insert>
+</mapper>

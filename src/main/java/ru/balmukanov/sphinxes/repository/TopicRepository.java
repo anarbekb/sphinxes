@@ -8,4 +8,6 @@ import ru.balmukanov.sphinxes.entities.Topic;
 @Mapper
 public interface TopicRepository {
     List<Topic> findByLevels(List<Level> levels);
+
+    List<Topic> findAll();
 }

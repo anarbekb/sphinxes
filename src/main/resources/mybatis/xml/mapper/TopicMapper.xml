@@ -3,6 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.balmukanov.sphinxes.repository.TopicRepository">
+    <select id="findAll" resultMap="topicsMap">
+        select t.id   as id,
+               t.name as name
+        from sphinxex.topics t
+        order by name
+    </select>
+    <resultMap id="topicsMap" type="Topic">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
     <select id="findByLevels" resultMap="topicsQuestionMap">
         select t.id       as topic_id,
                t.name     as topic_name,
