@@ -16,7 +16,7 @@ import ru.balmukanov.sphinxes.dto.request.CompleteQuestionnaireDto;
 import ru.balmukanov.sphinxes.dto.request.CreateQuestionnaireDto;
 import ru.balmukanov.sphinxes.dto.response.QuestionnaireDto;
 import ru.balmukanov.sphinxes.entities.User;
-import ru.balmukanov.sphinxes.services.QuestionnaireService;
+import ru.balmukanov.sphinxes.services.questionnaire.QuestionnaireService;
 
 @Slf4j
 @Controller

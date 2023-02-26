@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.auth;
 
 import ru.balmukanov.sphinxes.entities.User;
 

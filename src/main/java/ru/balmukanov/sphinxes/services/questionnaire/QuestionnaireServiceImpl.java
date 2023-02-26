@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.questionnaire;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import ru.balmukanov.sphinxes.entities.*;
 import ru.balmukanov.sphinxes.exception.ClosedQuestionnaireException;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapper;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
+import ru.balmukanov.sphinxes.services.question.TopicService;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private final FeedbackService feedbackService;
     private final QuestionnaireMapper questionnaireMapper;
     private final TopicService topicService;
+    private final AnswerTopicService answerTopicService;
     private final QuestionAnswerService questionAnswerService;
 
     @Override
@@ -31,7 +33,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         questionnaire.setCreator(principal);
         questionnaireRepository.save(questionnaire);
         for (Topic topic : topics) {
-            AnswerTopic answerTopic = topicService.toAnswer(topic, questionnaire.getId());
+            AnswerTopic answerTopic = answerTopicService.toAnswer(topic, questionnaire.getId());
             questionAnswerService.toAnswerQuestionAndSave(topic.getQuestions(), answerTopic.getId());
         }
 

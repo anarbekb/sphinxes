@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.balmukanov.sphinxes.dto.request.CreateQuestionDto;
-import ru.balmukanov.sphinxes.services.QuestionService;
-import ru.balmukanov.sphinxes.services.TopicService;
+import ru.balmukanov.sphinxes.services.question.QuestionService;
+import ru.balmukanov.sphinxes.services.question.TopicService;
 
 @Controller
 @RequiredArgsConstructor

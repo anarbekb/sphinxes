@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.questionnaire;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -10,6 +10,7 @@ import ru.balmukanov.sphinxes.exception.ClosedQuestionnaireException;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapper;
 import ru.balmukanov.sphinxes.mappers.QuestionnaireMapperImpl;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
+import ru.balmukanov.sphinxes.services.question.TopicService;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ class QuestionnaireServiceTest {
     private final FeedbackService feedbackService = Mockito.mock(FeedbackServiceImpl.class);
     private final QuestionnaireMapper questionnaireMapper = Mockito.spy(QuestionnaireMapperImpl.class);
     private final TopicService topicService = Mockito.mock(TopicService.class);
+    private final AnswerTopicService answerTopicService = Mockito.mock(AnswerTopicService.class);
     private final QuestionAnswerService questionAnswerService = Mockito.mock(QuestionAnswerServiceImpl.class);
     private final ArgumentCaptor<Questionnaire> questionnaireArgumentCaptor = ArgumentCaptor
             .forClass(Questionnaire.class);
@@ -34,7 +36,7 @@ class QuestionnaireServiceTest {
         questionnaire.setStatus(QuestionnaireStatus.CLOSED);
         when(questionnaireRepository.findById(anyLong())).thenReturn(questionnaire);
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
-                questionnaireMapper, topicService, questionAnswerService);
+                questionnaireMapper, topicService, answerTopicService, questionAnswerService);
 
         assertThrows(ClosedQuestionnaireException.class, () -> questionnaireService.checkAvailabilityForEdit(1L));
     }
@@ -46,7 +48,7 @@ class QuestionnaireServiceTest {
         questionnaire.setStatus(QuestionnaireStatus.PROGRESS);
         when(questionnaireRepository.findById(anyLong())).thenReturn(questionnaire);
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
-                questionnaireMapper, topicService, questionAnswerService);
+                questionnaireMapper, topicService, answerTopicService, questionAnswerService);
 
         assertDoesNotThrow(() -> questionnaireService.checkAvailabilityForEdit(1L));
     }
@@ -60,7 +62,7 @@ class QuestionnaireServiceTest {
         doNothing().when(questionnaireRepository).save(isA(Questionnaire.class));
         doNothing().when(feedbackService).create(isA(CompleteQuestionnaireDto.class));
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
-                questionnaireMapper, topicService, questionAnswerService);
+                questionnaireMapper, topicService, answerTopicService, questionAnswerService);
 
         questionnaireService.completeQuestionnaire(new CompleteQuestionnaireDto(1L, "test", "test"));
 
@@ -71,17 +73,17 @@ class QuestionnaireServiceTest {
     @Test
     void create_happyPath() {
         when(topicService.findByLevels(anyList())).thenReturn(List.of(createTopic()));
-        when(topicService.toAnswer(isA(Topic.class), anyLong())).thenReturn(createAnswerTopic());
+        when(answerTopicService.toAnswer(isA(Topic.class), anyLong())).thenReturn(createAnswerTopic());
         doNothing().when(questionAnswerService).toAnswerQuestionAndSave(anyList(), anyLong());
         doNothing().when(questionnaireRepository).save(isA(Questionnaire.class));
         var creator = new User();
         var questionnaireService = new QuestionnaireServiceImpl(questionnaireRepository, feedbackService,
-                questionnaireMapper, topicService, questionAnswerService);
+                questionnaireMapper, topicService, answerTopicService, questionAnswerService);
 
         questionnaireService.create(new CreateQuestionnaireDto("Ivanov Ivan",
                 "Test project name", Level.M1.name()), creator);
 
-        verify(topicService).toAnswer(isA(Topic.class), anyLong());
+        verify(answerTopicService).toAnswer(isA(Topic.class), anyLong());
         verify(questionAnswerService).toAnswerQuestionAndSave(anyList(), anyLong());
         verify(questionnaireRepository).save(questionnaireArgumentCaptor.capture());
         assertEquals(creator, questionnaireArgumentCaptor.getValue().getCreator());

@@ -1,23 +1,19 @@
 package ru.balmukanov.sphinxes;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import ru.balmukanov.sphinxes.dto.request.EstimateDto;
 import ru.balmukanov.sphinxes.entities.*;
 import ru.balmukanov.sphinxes.repository.AnswerTopicRepository;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
-import ru.balmukanov.sphinxes.services.EstimateServiceImpl;
-import ru.balmukanov.sphinxes.services.QuestionAnswerService;
-import ru.balmukanov.sphinxes.services.QuestionAnswerServiceImpl;
+import ru.balmukanov.sphinxes.services.estimate.EstimateMethod;
+import ru.balmukanov.sphinxes.services.estimate.EstimateServiceImpl;
+import ru.balmukanov.sphinxes.services.questionnaire.QuestionAnswerService;
+import ru.balmukanov.sphinxes.services.questionnaire.QuestionAnswerServiceImpl;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.mockito.Mockito.*;
 
@@ -25,6 +21,7 @@ class EstimateServiceTest {
 	private final QuestionnaireRepository questionnaireRepository = Mockito.mock(QuestionnaireRepository.class);
 	private final AnswerTopicRepository answerTopicRepository = Mockito.mock(AnswerTopicRepository.class);
 	private final QuestionAnswerService questionAnswerService = Mockito.mock(QuestionAnswerServiceImpl.class);
+	private final EstimateMethod estimateMethod = Mockito.mock(EstimateMethod.class);
 
 	@Test
 	void estimate_happyPath() {
@@ -37,9 +34,11 @@ class EstimateServiceTest {
 		doNothing().when(questionAnswerService).estimate(ArgumentMatchers.anyLong(), ArgumentMatchers.anyInt());
 		doNothing().when(answerTopicRepository).update(ArgumentMatchers.isA(AnswerTopic.class));
 		doNothing().when(questionnaireRepository).update(ArgumentMatchers.isA(Questionnaire.class));
+		when(estimateMethod.estimate(ArgumentMatchers.anyList())).thenReturn(4);
 		when(questionnaireRepository.findByIdFullRelationsMapped(ArgumentMatchers.anyLong()))
 				.thenReturn(questionnaire);
-		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionAnswerService);
+		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository,
+				questionAnswerService, estimateMethod);
 
 		var estimateDto = new EstimateDto();
 		estimateDto.setEvaluation(4);
@@ -49,32 +48,6 @@ class EstimateServiceTest {
 
 		Mockito.verify(answerTopicRepository).update(isA(AnswerTopic.class));
 		Mockito.verify(questionnaireRepository).update(isA(Questionnaire.class));
-	}
-
-	@ParameterizedTest
-	@MethodSource("provideArguments")
-	void estimate_test(List<Integer> sources, int expected) {
-		var estimateService = new EstimateServiceImpl(questionnaireRepository, answerTopicRepository, questionAnswerService);
-		Assertions.assertEquals(expected, estimateService.estimate(sources));
-	}
-
-	private static Stream<Arguments> provideArguments() {
-		return Stream.of(
-			Arguments.of(List.of(4, 4, 1, 2), 1),
-			Arguments.of(List.of(1, 1, 4, 4), 1),
-			Arguments.of(List.of(1, 1, 2, 2), 1),
-			Arguments.of(List.of(1, 2, 2, 3, 4), 1),
-			Arguments.of(List.of(1, 2, 3, 4), 1),
-			Arguments.of(List.of(2, 3, 3, 3), 2),
-			Arguments.of(List.of(2, 4, 4, 4), 2),
-			Arguments.of(List.of(1, 2, 2, 2, 3, 3, 3, 3, 4, 4), 2),
-			Arguments.of(List.of(2, 3, 3, 3, 3), 3),
-			Arguments.of(List.of(2, 4, 4, 4, 4), 4),
-			Arguments.of(List.of(3, 4), 3),
-			Arguments.of(List.of(3, 4, 4), 4),
-			Arguments.of(List.of(3, 4, 4, 4), 4),
-			Arguments.of(List.of(3, 4, 4, 4, 4), 4)
-		);
 	}
 
 	private Questionnaire createQuestionnaire() {

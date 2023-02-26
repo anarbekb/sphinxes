@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

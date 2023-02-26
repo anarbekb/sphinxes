@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.questionnaire;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;

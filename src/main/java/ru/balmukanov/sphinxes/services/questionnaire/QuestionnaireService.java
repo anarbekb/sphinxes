@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.questionnaire;
 
 import ru.balmukanov.sphinxes.dto.request.CompleteQuestionnaireDto;
 import ru.balmukanov.sphinxes.dto.request.CreateQuestionnaireDto;

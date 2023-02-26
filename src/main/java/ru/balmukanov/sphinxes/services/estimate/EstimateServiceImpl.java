@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.estimate;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,7 @@ import ru.balmukanov.sphinxes.exception.AnswerTopicNotFoundException;
 import ru.balmukanov.sphinxes.exception.EstimateException;
 import ru.balmukanov.sphinxes.repository.AnswerTopicRepository;
 import ru.balmukanov.sphinxes.repository.QuestionnaireRepository;
+import ru.balmukanov.sphinxes.services.questionnaire.QuestionAnswerService;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,13 +21,10 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class EstimateServiceImpl implements EstimateService {
-	private final static int NONE_ESTIMATE = 1;
-	private final static int INTERN_ESTIMATE = 2;
-	private final static int NOTICE_ESTIMATE = 3;
-	private final static int ADVANCED_ESTIMATE = 4;
 	private final QuestionnaireRepository questionnaireRepository;
 	private final AnswerTopicRepository answerTopicRepository;
 	private final QuestionAnswerService questionAnswerService;
+	private final EstimateMethod estimateMethod;
 
 	@Override
 	@Transactional
@@ -43,31 +41,6 @@ public class EstimateServiceImpl implements EstimateService {
 		estimateAndSaveQuestionnaire(questionnaire);
 	}
 
-	public int estimate(List<Integer> estimates) {
-		long noneProcent = estimates.stream()
-			.filter(integer -> integer == NONE_ESTIMATE)
-			.count() * (100 / estimates.size());
-		if (noneProcent >= 15) {
-			return NONE_ESTIMATE;
-		}
-
-		long intermediaCount = estimates.stream()
-			.filter(integer -> integer == INTERN_ESTIMATE)
-			.count() * (100 / estimates.size());
-		if (intermediaCount >= 25) {
-			return INTERN_ESTIMATE;
-		}
-
-		long noviceCount = estimates.stream()
-			.filter(integer -> integer == NOTICE_ESTIMATE)
-			.count() * (100 / estimates.size());
-		if (noviceCount >= 50) {
-			return NOTICE_ESTIMATE;
-		}
-
-		return ADVANCED_ESTIMATE;
-	}
-
 	private void estimateAndSaveQuestionnaire(Questionnaire questionnaire) {
 		List<Integer> estimates = questionnaire.getTopics().stream()
 				.filter(answerTopic -> Objects.nonNull(answerTopic.getEvaluation()))
@@ -76,7 +49,7 @@ public class EstimateServiceImpl implements EstimateService {
 		if (estimates.isEmpty()) {
 			throw new EstimateException("Empty estimates for questionnaire=%s".formatted(questionnaire.getId()));
 		}
-		questionnaire.setEvaluation(estimate(estimates));
+		questionnaire.setEvaluation(estimateMethod.estimate(estimates));
 		questionnaireRepository.update(questionnaire);
 	}
 
@@ -88,7 +61,7 @@ public class EstimateServiceImpl implements EstimateService {
 		if (topicEstimates.isEmpty()) {
 			throw new EstimateException("Empty estimates for answer topic=%s".formatted(updatedAnswerTopic.getName()));
 		}
-		updatedAnswerTopic.setEvaluation(estimate(topicEstimates));
+		updatedAnswerTopic.setEvaluation(estimateMethod.estimate(topicEstimates));
 		answerTopicRepository.update(updatedAnswerTopic);
 	}
 }

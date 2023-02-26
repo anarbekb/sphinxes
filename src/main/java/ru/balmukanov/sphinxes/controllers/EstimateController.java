@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.balmukanov.sphinxes.dto.request.EstimateDto;
 import ru.balmukanov.sphinxes.exception.ClosedQuestionnaireException;
-import ru.balmukanov.sphinxes.services.EstimateService;
-import ru.balmukanov.sphinxes.services.QuestionnaireService;
+import ru.balmukanov.sphinxes.services.estimate.EstimateService;
+import ru.balmukanov.sphinxes.services.questionnaire.QuestionnaireService;
 
 @Slf4j
 @Controller

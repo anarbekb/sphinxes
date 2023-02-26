@@ -1,4 +1,4 @@
-package ru.balmukanov.sphinxes.services;
+package ru.balmukanov.sphinxes.services.questionnaire;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

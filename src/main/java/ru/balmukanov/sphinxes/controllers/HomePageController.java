@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.balmukanov.sphinxes.dto.request.CreateQuestionnaireDto;
 import ru.balmukanov.sphinxes.entities.User;
-import ru.balmukanov.sphinxes.services.QuestionnaireService;
+import ru.balmukanov.sphinxes.services.questionnaire.QuestionnaireService;
 
 @Controller
 @RequiredArgsConstructor
