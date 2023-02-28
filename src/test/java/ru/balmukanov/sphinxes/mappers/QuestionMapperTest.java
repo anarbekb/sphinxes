@@ -41,7 +41,7 @@ class QuestionMapperTest {
     @Test
     void mapToQuestion_happyPath() {
         var createQuestionDto = new CreateQuestionDto("How work java?", "Great work!", 1L,
-                "http://localhost", "Java", "J1");
+                "Java", "J1", "http://localhost");
 
         Question question = MAPPER.mapToQuestion(createQuestionDto);
 

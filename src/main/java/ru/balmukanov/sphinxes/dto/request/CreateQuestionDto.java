@@ -21,9 +21,9 @@ public class CreateQuestionDto {
     private String answer;
     @Min(1)
     private long topicId;
-    private String links;
     @NotBlank
     private String subject;
     @NotBlank
     private String level;
+    private String links;
 }

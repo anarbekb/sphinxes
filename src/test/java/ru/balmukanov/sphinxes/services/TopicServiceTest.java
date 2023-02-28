@@ -2,6 +2,7 @@ package ru.balmukanov.sphinxes.services;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.balmukanov.sphinxes.dto.response.TopicDto;
 import ru.balmukanov.sphinxes.entities.Level;
 import ru.balmukanov.sphinxes.entities.Question;
 import ru.balmukanov.sphinxes.entities.Topic;
@@ -22,6 +23,7 @@ class TopicServiceTest {
     @Test
     void findByLevels_happyPath() {
         var topic = new Topic();
+        topic.setId(1L);
         topic.setName("Java");
         topic.setQuestions(List.of(createQuestion()));
         when(topicRepository.findByLevels(anyList())).thenReturn(List.of(topic));
@@ -30,6 +32,22 @@ class TopicServiceTest {
         List<Topic> topics = topicService.findByLevels(List.of(Level.M3));
 
         assertEquals(1, topics.size());
+    }
+
+    @Test
+    void findAll_happyPath() {
+        var topic = new Topic();
+        topic.setId(1L);
+        topic.setName("Java");
+        topic.setQuestions(List.of(createQuestion()));
+        when(topicRepository.findAll()).thenReturn(List.of(topic));
+        var topicService = new TopicServiceImpl(topicRepository, topicMapper);
+
+        List<TopicDto> topics = topicService.findAll();
+
+        assertEquals(1, topics.size());
+        assertEquals(topic.getName(), topics.get(0).getName());
+        assertEquals(topic.getId(), topics.get(0).getId());
     }
 
     private Question createQuestion() {
