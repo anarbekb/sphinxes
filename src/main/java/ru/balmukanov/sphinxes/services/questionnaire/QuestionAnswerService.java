@@ -11,4 +11,6 @@ public interface QuestionAnswerService {
     void estimate(long answerCommentId, int evaluation);
 
     AnswerQuestion findById(long id);
+
+    void deleteUnused(long questionnaireId);
 }

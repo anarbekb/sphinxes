@@ -16,4 +16,8 @@
             questionnaire_id = #{answerTopic.questionnaireId}
         where id = #{answerTopic.id}
     </update>
+    <delete id="deleteUnused">
+        delete from sphinxex.answer_topics
+        where evaluation is null and questionnaire_id = #{questionnaireId};
+    </delete>
 </mapper>

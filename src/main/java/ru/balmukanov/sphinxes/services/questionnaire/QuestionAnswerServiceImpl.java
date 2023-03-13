@@ -32,7 +32,14 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
     }
 
     @Override
+    @Transactional
     public AnswerQuestion findById(long id) {
         return answerQuestionRepository.findById(id).orElseThrow(AnswerQuestionNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUnused(long questionnaireId) {
+        answerQuestionRepository.deleteUnused(questionnaireId);
     }
 }

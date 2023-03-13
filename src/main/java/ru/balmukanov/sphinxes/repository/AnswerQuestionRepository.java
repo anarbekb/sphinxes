@@ -16,4 +16,6 @@ public interface AnswerQuestionRepository {
     List<AnswerQuestion> findFailed(long questionnaireId);
 
     Optional<AnswerQuestion> findById(long id);
+
+    void deleteUnused(long questionnaireId);
 }

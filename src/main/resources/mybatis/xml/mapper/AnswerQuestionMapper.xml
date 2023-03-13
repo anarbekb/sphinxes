@@ -13,6 +13,11 @@
     <update id="setEvaluation" parameterType="ru.balmukanov.sphinxes.entities.AnswerQuestion">
         update sphinxex.answer_questions set evaluation = #{evaluation} where id = #{id}
     </update>
+    <delete id="deleteUnused">
+        delete from sphinxex.answer_questions
+        where evaluation is null
+          and answer_topic_id in (select id from sphinxex.answer_topics where questionnaire_id = #{questionnaireId});
+    </delete>
 
     <select id="findFailed" resultMap="answerQuestionMap">
         select aq.id              as id,
