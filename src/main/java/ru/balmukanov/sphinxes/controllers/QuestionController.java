@@ -17,6 +17,12 @@ public class QuestionController {
     private final QuestionService questionService;
     private final TopicService topicService;
 
+    @GetMapping("/questions")
+    public String questions(Model model) {
+        model.addAttribute("questions", questionService.findAll());
+        return "question-list";
+    }
+
     @GetMapping("/create-question")
     public String createQuestion(Model model) {
         model.addAttribute("requestQuestion", new CreateQuestionDto());

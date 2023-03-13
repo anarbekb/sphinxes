@@ -9,4 +9,25 @@
         values (#{question.point}, #{question.answer}, #{question.topicId}, #{question.subject},
                 #{question.level}, #{question.links});
     </insert>
+
+    <select id="findAll" resultMap="questionMap">
+        select q.id       as id,
+               q.answer   as answer,
+               q.level    as level,
+               q.links    as links,
+               q.subject  as subject,
+               q.point    as point,
+               q.topic_id as topicId
+        from sphinxex.questions as q
+               left join sphinxex.topics t on t.id = q.topic_id
+    </select>
+    <resultMap id="questionMap" type="Question">
+        <result property="id" column="id"/>
+        <result property="point" column="point"/>
+        <result property="answer" column="answer"/>
+        <result property="topicId" column="topic_id"/>
+        <result property="links" column="links"/>
+        <result property="subject" column="subject"/>
+        <result property="level" column="level"/>
+    </resultMap>
 </mapper>

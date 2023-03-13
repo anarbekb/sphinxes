@@ -3,9 +3,12 @@ package ru.balmukanov.sphinxes.services.question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.balmukanov.sphinxes.dto.request.CreateQuestionDto;
+import ru.balmukanov.sphinxes.dto.response.QuestionDto;
 import ru.balmukanov.sphinxes.entities.Question;
 import ru.balmukanov.sphinxes.mappers.QuestionMapper;
 import ru.balmukanov.sphinxes.repository.QuestionRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,5 +20,10 @@ public class QuestionServiceImpl implements QuestionService {
     public void create(CreateQuestionDto request) {
         Question question = questionMapper.mapToQuestion(request);
         questionRepository.save(question);
+    }
+
+    @Override
+    public List<QuestionDto> findAll() {
+        return questionRepository.findAll().stream().map(questionMapper::mapToQuestionDto).toList();
     }
 }
