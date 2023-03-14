@@ -14,5 +14,7 @@ public interface QuestionMapper {
 
     Question mapToQuestion(CreateQuestionDto request);
 
+    Question mapToQuestion(QuestionDto request);
+
     QuestionDto mapToQuestionDto(Question question);
 }

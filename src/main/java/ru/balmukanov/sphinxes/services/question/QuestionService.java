@@ -9,4 +9,8 @@ public interface QuestionService {
     void create(CreateQuestionDto request);
 
     List<QuestionDto> findAll();
+
+    QuestionDto findById(long id);
+
+    void edit(long id, QuestionDto questionDto);
 }

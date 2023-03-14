@@ -9,6 +9,16 @@
         values (#{question.point}, #{question.answer}, #{question.topicId}, #{question.subject},
                 #{question.level}, #{question.links});
     </insert>
+    <update id="update">
+        update sphinxex.questions
+        set topic_id = #{question.topicId},
+            point    = #{question.point},
+            answer   = #{question.answer},
+            subject  = #{question.subject},
+            level    = #{question.level},
+            links    = #{question.links}
+        where id = #{question.id}
+    </update>
 
     <select id="findAll" resultMap="questionMap">
         select q.id       as id,
@@ -19,7 +29,18 @@
                q.point    as point,
                q.topic_id as topicId
         from sphinxex.questions as q
-               left join sphinxex.topics t on t.id = q.topic_id
+        order by id
+    </select>
+    <select id="findById" resultMap="questionMap">
+        select q.id       as id,
+               q.answer   as answer,
+               q.level    as level,
+               q.links    as links,
+               q.subject  as subject,
+               q.point    as point,
+               q.topic_id as topic_id
+        from sphinxex.questions as q
+        where id = #{id}
     </select>
     <resultMap id="questionMap" type="Question">
         <result property="id" column="id"/>

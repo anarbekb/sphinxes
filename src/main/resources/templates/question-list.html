@@ -38,6 +38,9 @@
                 <a target="_blank" th:each="link : ${#strings.arraySplit(question.links, ' ')}" th:href="${link}"
                    class="link-primary">source </a>
             </div>
+            <div class="card-footer">
+                <a th:href="'/edit-question/' + ${question.id}" class="btn btn-primary">Редактировать</a>
+            </div>
         </div>
     </div>
 </div>

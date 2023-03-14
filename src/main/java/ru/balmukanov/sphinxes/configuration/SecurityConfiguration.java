@@ -16,7 +16,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain httpSecurity(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .authorizeHttpRequests().antMatchers("/create-question", "/questions").hasRole("ADMIN")
+                .authorizeHttpRequests()
+                    .antMatchers("/create-question", "/questions", "/edit-question/**").hasRole("ADMIN")
                 .and()
                 .authorizeHttpRequests().anyRequest().authenticated()
                 .and().formLogin();
