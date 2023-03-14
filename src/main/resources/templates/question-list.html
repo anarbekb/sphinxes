@@ -26,7 +26,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Список вопросов</h5>
-            <p class="card-text">Список доступных вопросов, которые будут использованы при создании опросников</p>
+            <p class="card-text">Создать вопрос для последующего использования в опросниках можно на <a href="/create-question">странице</a></p>
         </div>
     </div>
 
@@ -35,6 +35,8 @@
             <div class="card-header" th:text="${question.point} + ' | ' + ${question.level}"></div>
             <div class="card-body">
                 <p class="card-text" th:text="${question.answer}"></p>
+                <a target="_blank" th:each="link : ${#strings.arraySplit(question.links, ' ')}" th:href="${link}"
+                   class="link-primary">source </a>
             </div>
         </div>
     </div>
