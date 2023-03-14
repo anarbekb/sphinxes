@@ -9,4 +9,6 @@ public interface AnswerTopicRepository {
     void save(@Param("answerTopic") AnswerTopic answerTopic);
 
     void update(@Param("answerTopic") AnswerTopic answerTopic);
+
+    void deleteUnused(long questionnaireId);
 }

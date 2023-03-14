@@ -5,4 +5,6 @@ import ru.balmukanov.sphinxes.entities.Topic;
 
 public interface AnswerTopicService {
     AnswerTopic toAnswer(Topic topic, long questionnaireId);
+
+    void deleteUnused(long questionnaireId);
 }

@@ -71,5 +71,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         questionnaire.setStatus(QuestionnaireStatus.CLOSED);
         questionnaireRepository.update(questionnaire);
         feedbackService.create(completeQuestionnaireDto);
+
+        questionAnswerService.deleteUnused(questionnaire.getId());
+        answerTopicService.deleteUnused(questionnaire.getId());
 	}
 }
